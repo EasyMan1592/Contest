@@ -37,6 +37,7 @@ public class Player : MonoBehaviour
         ////백터 노멀라이즈(정규화)
         //transform.Translate(speedNomal * (speed));
         ////벡터에 곱해줌
-
     }
+
+    
 }

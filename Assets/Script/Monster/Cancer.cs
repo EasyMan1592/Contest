@@ -4,17 +4,26 @@ using UnityEngine;
 
 public class Cancer : Monster_Parents
 {
-    void Start()
-    {
-    }
+    public GameObject cancerAttackArea;
+
+    [SerializeField]
+    private float sizeUpSpeed;
 
     void Update()
     {
         monster_Move();
+        Cancer_Attack();
+    }
+
+    void Cancer_Attack()
+    {
+        float scale = cancerAttackArea.transform.localScale.x + Time.deltaTime * sizeUpSpeed;
+        cancerAttackArea.transform.localScale = new Vector2(scale, scale);
     }
 
     protected override void monster_Move()
     {
         base.monster_Move();
+        
     }
 }

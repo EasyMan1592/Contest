@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Bullet
   - Monster
+  - Deadzone
   layers:
   - Default
   - TransparentFX
@@ -45,6 +46,9 @@ TagManager:
     locked: 0
   - name: BackGround
     uniqueID: 1046239211
+    locked: 0
+  - name: MiddleGround
+    uniqueID: 2150536451
     locked: 0
   - name: ForeGround
     uniqueID: 2562644335

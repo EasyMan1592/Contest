@@ -7,12 +7,11 @@ public class Bullet : MonoBehaviour
 {
     [SerializeField]
     private float speed;
-    private Rigidbody2D bulletRigid;
 
     // Start is called before the first frame update
     void Start()
     {
-        bulletRigid = GetComponent<Rigidbody2D>();
+        
         Destroy(gameObject, 1f);
     }
 
