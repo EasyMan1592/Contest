@@ -10,10 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 3133516487278633878}
   - component: {fileID: 3348139230297674919}
-  - component: {fileID: 4656880694274393536}
+  - component: {fileID: 1155886608}
+  - component: {fileID: 6010668749306331470}
+  - component: {fileID: 4884142442761519305}
   m_Layer: 0
   m_Name: CancerAttatkArea
-  m_TagString: Untagged
+  m_TagString: CancerAttackArea
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -85,7 +87,24 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &4656880694274393536
+--- !u!114 &1155886608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3207703771076473351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6452f1e24383694296366dbf62b7765, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  elapsedTime: 0
+  cheakTime: 0.7
+  cancerDamage: 5
+  cancerPainDamage: 1
+  inPlayer: 0
+--- !u!58 &6010668749306331470
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -101,6 +120,27 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!50 &4884142442761519305
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3207703771076473351}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &7071968176351252570
 GameObject:
   m_ObjectHideFlags: 0
@@ -112,8 +152,8 @@ GameObject:
   - component: {fileID: 7071968176351252568}
   - component: {fileID: 7071968176351252571}
   - component: {fileID: 7071968176351252569}
-  - component: {fileID: 7071968176351252574}
   - component: {fileID: 3003453725958399627}
+  - component: {fileID: 7331378604828279772}
   m_Layer: 0
   m_Name: Cancer
   m_TagString: Monster
@@ -129,7 +169,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7071968176351252570}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.46, y: 3.77, z: 0}
+  m_LocalPosition: {x: -1.45, y: 3.77, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -201,26 +241,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a0db3b73f704e443ba5aa1450b90750, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monster_HP: 8
-  monster_Speed: 1
+  monster_Score: 300
+  monster_HP: 30
+  monster_Speed: 0.5
+  monster_Pain: 15
+  monster_contactDamage: 15
   cancerAttackArea: {fileID: 3207703771076473351}
   sizeUpSpeed: 0.5
---- !u!58 &7071968176351252574
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7071968176351252570}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.32
 --- !u!50 &3003453725958399627
 Rigidbody2D:
   serializedVersion: 4
@@ -240,5 +267,21 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!58 &7331378604828279772
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7071968176351252570}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.32

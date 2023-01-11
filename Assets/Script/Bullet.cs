@@ -5,13 +5,12 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField]
-    private float speed;
+    [SerializeField] float speed;
+    public float bulletDamage;
 
     // Start is called before the first frame update
     void Start()
     {
-        
         Destroy(gameObject, 1f);
     }
 

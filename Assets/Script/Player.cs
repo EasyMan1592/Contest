@@ -8,8 +8,6 @@ public class Player : MonoBehaviour
     private float speed;
     private Rigidbody2D playerRigid;
 
-    Vector2 speedNomal;
-
     void Start()
     {
         playerRigid = GetComponent<Rigidbody2D>();
@@ -17,6 +15,13 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
+        if (pos.x < 0f) pos.x = 0f;
+        if (pos.x > 1f) pos.x = 1f;
+        if (pos.y < 0f) pos.y = 0f;
+        if (pos.y > 1f) pos.y = 1f;
+        transform.position = Camera.main.ViewportToWorldPoint(pos);
+
         moveControl();
     }
 
@@ -25,19 +30,5 @@ public class Player : MonoBehaviour
         float x = Input.GetAxis("Horizontal") * speed;
         float y = Input.GetAxis("Vertical") * speed;
         playerRigid.velocity = new Vector2(x, y);
-
-        //float h = Input.GetAxis("Horizontal");
-        ////좌우입력 받기
-        //float v = Input.GetAxis("Vertical");
-        ////상하 이동 받기
-        //speedNomal = (new Vector2(h, v));
-        //// 벡터에 입력
-        //if (speedNomal.magnitude > 1)
-        //    speedNomal = speedNomal.normalized;
-        ////백터 노멀라이즈(정규화)
-        //transform.Translate(speedNomal * (speed));
-        ////벡터에 곱해줌
     }
-
-    
 }

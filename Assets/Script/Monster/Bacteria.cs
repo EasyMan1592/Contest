@@ -2,11 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Virus : Monster_Parents
+public class Bacteria : Monster_Parents
 {
     void Start()
     {
-
     }
 
     void Update()

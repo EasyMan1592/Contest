@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class germs_Bullet : MonoBehaviour
+public class Germs_Bullet : MonoBehaviour
 {
     private GameObject player;
     private Transform playerTransform;
 
     [SerializeField] float speed;
+    [SerializeField] int bulletDamage;
 
     Vector3 dir;
 
@@ -29,4 +30,14 @@ public class germs_Bullet : MonoBehaviour
         transform.position += dir * speed * Time.deltaTime;
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Player") // 플레이어 피격
+        {
+            if(GameManager.instance_.playerDamage(bulletDamage))
+            {
+                Destroy(gameObject);
+            }
+        }
+    }
 }

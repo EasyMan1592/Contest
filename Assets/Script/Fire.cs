@@ -17,11 +17,6 @@ public class Fire : MonoBehaviour
         StartCoroutine(fireCoroutine);
     }
 
-    void Update()
-    {
-        
-    }
-
     IEnumerator fire()
     {
         fireCoroutine = fire();
@@ -29,8 +24,5 @@ public class Fire : MonoBehaviour
         yield return new WaitForSecondsRealtime(fireTime);
         StartCoroutine(fireCoroutine);
     }
-
-
-
 
 }

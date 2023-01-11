@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
+using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
@@ -9,7 +10,6 @@ public class Germs : Monster_Parents
     private GameObject player;
     public Transform playerTransform;
     public GameObject germs_BulletPrefab;
-
 
     [SerializeField] int key;
     [SerializeField] float keyChangeTime;
@@ -27,14 +27,11 @@ public class Germs : Monster_Parents
         playerTransform = player.transform;
 
         dash = false;
-        key = 1;
-        //key = Random.Range(0,2);
-        //if (key == 0)
-        //{
-        //    key = -1;   
-        //}
-
-        StartCoroutine(keyChange());
+        key = Random.Range(0, 2);
+        if (key == 0)
+        {
+            key = -1;
+        }
         StartCoroutine(Grems_Dash());
         StartCoroutine(fire_Delay());
     }
@@ -63,7 +60,6 @@ public class Germs : Monster_Parents
         StartCoroutine(Fire());
     }
 
-
     IEnumerator Fire()
     {
         yield return new WaitForSecondsRealtime(keyChangeTime);
@@ -76,12 +72,12 @@ public class Germs : Monster_Parents
         StartCoroutine(Fire());
     }
 
-
-    IEnumerator keyChange()
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        yield return new WaitForSecondsRealtime(keyChangeTime);
-        key *= -1;
-        StartCoroutine(keyChange());
+        if(collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Monster"))
+        {
+            key *= -1;
+        }
     }
 
     IEnumerator Grems_Dash()
