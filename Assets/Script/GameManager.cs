@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SocialPlatforms.Impl;
 using System.Linq.Expressions;
 using System;
+using JetBrains.Annotations;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,7 +13,10 @@ public class GameManager : MonoBehaviour
     public Player player;
     public SpriteRenderer player_SPR;
 
-    public enum FireGrade { Fir, Sec, Thi, Fou, Fif};
+    public int FireGrade;
+   
+
+    //public enum FireGradeNum { Fir = 1, Sec, Thi, Fou, Fif};
 
     void Awake()
     {

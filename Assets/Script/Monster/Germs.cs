@@ -11,13 +11,13 @@ public class Germs : Monster_Parents
     public Transform playerTransform;
     public GameObject germs_BulletPrefab;
 
-    [SerializeField] int key;
     [SerializeField] float keyChangeTime;
     [SerializeField] float dashTime;
     [SerializeField] float dashForce;
     [SerializeField] bool dash;
     [SerializeField] float delayTime;
     [SerializeField] float fireTime;
+    [SerializeField] int key;
 
     Vector3 dir;
 
@@ -77,6 +77,12 @@ public class Germs : Monster_Parents
         if(collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Monster"))
         {
             key *= -1;
+        }
+
+        if (collision.gameObject.tag == "Deadzone") // 데드존 충돌, 고통게이지 증가
+        {
+            GameManager.instance_.getPain(monster_Pain);
+            Destroy(gameObject);
         }
     }
 

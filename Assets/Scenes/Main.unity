@@ -1557,6 +1557,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1157138893}
   player_SPR: {fileID: 1157138891}
+  FireGrade: 1
   score: 0
   playerHp: 100
   painGauge: 20

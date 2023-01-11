@@ -6,6 +6,7 @@ public class Bacteria : Monster_Parents
 {
     void Start()
     {
+        transform.rotation = Quaternion.Euler(0f, 0f, Random.Range(-30f, 30f));
     }
 
     void Update()
