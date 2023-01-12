@@ -13,10 +13,11 @@ public class GameManager : MonoBehaviour
     public Player player;
     public SpriteRenderer player_SPR;
 
-    public int FireGrade;
-   
+    public GameObject getScoreText;
 
-    //public enum FireGradeNum { Fir = 1, Sec, Thi, Fou, Fif};
+    // 아이템 관련 퍼블릭 변수
+    
+    
 
     void Awake()
     {
@@ -38,6 +39,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    [SerializeField] float invinceTime = 2f;
     [SerializeField] int score = 0;
     [SerializeField] float playerHp = 100;
     [SerializeField] float painGauge = 0;
@@ -45,6 +47,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] float maxPain = 100;
     [SerializeField] bool canGetDamage = true;
     [SerializeField] bool isGmaeover = false;
+    [SerializeField] int FireGrade;
+    [SerializeField] GameObject shieldObj;
 
     public Slider hpBar;
     public Slider painBar;
@@ -54,6 +58,8 @@ public class GameManager : MonoBehaviour
     {
         updateUI();
         canGetDamage = true;
+
+        Mathf.Clamp(FireGrade, 1, 5);
     }
 
     void Update()
@@ -63,6 +69,8 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 0;
         }
     }
+
+    ///================///
 
     public void updateUI()
     {
@@ -74,16 +82,16 @@ public class GameManager : MonoBehaviour
     public void scoreUp(int newscore, Transform hitPoint)
     {
         score += newscore;
+        //GameObject text = Instantiate(getScoreText, hitPoint.position, Quaternion.identity, GameObject.Find("Canvas").transform);
         updateUI();
     }
 
     public bool playerDamage(float newdamage)
     {
-        if(canGetDamage == true)
+        if (canGetDamage == true)
         {
             playerHp -= newdamage;
-            StartCoroutine(invince());
-            StartCoroutine(invince_Graphic());
+            contactTheMonster(invinceTime);
             updateUI();
             return true;
         }
@@ -93,40 +101,94 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    IEnumerator invince()
+    public void playerHeal(float newhealamount)
     {
-        canGetDamage = false;
-        yield return new WaitForSecondsRealtime(1.5f);
-        canGetDamage = true;
+        playerHp += newhealamount;
+        updateUI();
     }
 
-    IEnumerator invince_Graphic()
-    {
-        for(int i = 1; i < 15; i++)
-        {
-            if(i % 2 != 0)
-            {
-                player_SPR.enabled = false;
-                yield return new WaitForSecondsRealtime(0.1f);
-            }
-            else
-            {
-                player_SPR.enabled = true;
-                yield return new WaitForSecondsRealtime(0.1f);
-            }
-        }
-    }
-    
     public void getPain(float newpain)
     {
         painGauge += newpain;
         updateUI();
     }
 
+    public void healPain(float newhealamount)
+    {
+        painGauge += newhealamount;
+        updateUI();
+    }
+
+    public void fireUpgrade()
+    {
+        FireGrade++;
+    }
+
+    public void onShield(float newshieldtime)
+    {
+        IEnumerator shield_ = shield(newshieldtime);
+        IEnumerator shieldBlink_ = shieldBlink(newshieldtime);
+        StopCoroutine(shield_);
+        StartCoroutine(shield_);
+        StopCoroutine(shieldBlink_);
+        StartCoroutine(shieldBlink_);
+    }
+
+    public void contactTheMonster(float newinvincetime)
+    {
+        IEnumerator invince_ = invince(newinvincetime);
+        IEnumerator playerBlink = objectBlink(player_SPR, newinvincetime);
+        StopCoroutine(invince_);
+        StartCoroutine(invince_);
+        StopCoroutine(playerBlink);
+        StartCoroutine(playerBlink);
+    }
+
+    IEnumerator invince(float newinvincetime_)
+    {
+        canGetDamage = false;
+        yield return new WaitForSecondsRealtime(newinvincetime_);
+        canGetDamage = true;
+    }
+
+    IEnumerator shield(float newshieldtime_)
+    {
+        shieldObj.SetActive(true);
+        canGetDamage = false;
+        yield return new WaitForSecondsRealtime(newshieldtime_);
+        shieldObj.SetActive(false);
+        canGetDamage = true;
+    }
+
+    IEnumerator shieldBlink(float newshieldtime__)
+    {
+        float shieldOnTime = newshieldtime__ - 0.8f;
+        yield return new WaitForSecondsRealtime(shieldOnTime);
+        StartCoroutine(objectBlink(shieldObj.GetComponent<Renderer>(), 0.8f));
+    }
+
+    IEnumerator objectBlink(Renderer renderer, float newblinktime)
+    {
+        for (int i = 1; i <= (newblinktime * 10); i++)
+        {
+            if (i % 2 != 0)
+            {
+                renderer.enabled = false;
+                yield return new WaitForSecondsRealtime(0.1f);
+            }
+            else
+            {
+                renderer.enabled = true;
+                yield return new WaitForSecondsRealtime(0.1f);
+            }
+        }
+        renderer.enabled = true;
+    }
+
+    
+
     public void Gameover()
     {
         isGmaeover = true;
-
-        
     }
 }

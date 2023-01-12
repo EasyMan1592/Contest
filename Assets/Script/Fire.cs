@@ -36,8 +36,15 @@ public class Fire : MonoBehaviour
                 break;
             case 4:
                 Instantiate(bulletPrefab, new Vector2(transform.position.x - 0.2f, transform.position.y), Quaternion.Euler(0f, 0f, +7));
-                Instantiate(bulletPrefab, new Vector2(transform.position.x - 0.13f, transform.position.y), Quaternion.identity);
-                Instantiate(bulletPrefab, new Vector2(transform.position.x + 0.13f, transform.position.y), Quaternion.identity);
+                Instantiate(bulletPrefab, new Vector2(transform.position.x - 0.13f, transform.position.y), Quaternion.Euler(0f, 0f, +1));
+                Instantiate(bulletPrefab, new Vector2(transform.position.x + 0.13f, transform.position.y), Quaternion.Euler(0f, 0f, -1));
+                Instantiate(bulletPrefab, new Vector2(transform.position.x + 0.2f, transform.position.y), Quaternion.Euler(0f, 0f, -7));
+                break;
+            case 5:
+                Instantiate(bulletPrefab, new Vector2(transform.position.x - 0.2f, transform.position.y), Quaternion.Euler(0f, 0f, +7));
+                Instantiate(bulletPrefab, new Vector2(transform.position.x - 0.16f, transform.position.y), Quaternion.Euler(0f, 0f, +2));
+                Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+                Instantiate(bulletPrefab, new Vector2(transform.position.x + 0.16f, transform.position.y), Quaternion.Euler(0f, 0f, -2));
                 Instantiate(bulletPrefab, new Vector2(transform.position.x + 0.2f, transform.position.y), Quaternion.Euler(0f, 0f, -7));
                 break;
         }
