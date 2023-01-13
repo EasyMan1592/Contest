@@ -97,4 +97,9 @@ public class Germs : Monster_Parents
         base.OnTriggerEnter2D(collision);
     }
 
+    protected override void Die()
+    {
+        base.Die();
+    }
+
 }

@@ -105,14 +105,14 @@ MonoBehaviour:
   monster_Pain: 5
   monster_contactDamage: 10
   playerTransform: {fileID: 0}
-  germs_BulletPrefab: {fileID: 2420069392725859113, guid: 5b388565fb3e4144e9e97368fa97568f, type: 3}
-  key: 0
+  germs_BulletPrefab: {fileID: 7510247933867204161, guid: 6b99bcc5e7a301443805d07e4c776adc, type: 3}
   keyChangeTime: 1.5
   dashTime: 5
   dashForce: 1
   dash: 0
   delayTime: 0.7
   fireTime: 0.2
+  key: 0
 --- !u!58 &5299673594147094072
 CircleCollider2D:
   m_ObjectHideFlags: 0

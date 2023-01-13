@@ -14,6 +14,11 @@ public class Bacteria : Monster_Parents
         monster_Move();
     }
 
+    protected override void Die()
+    {
+        base.Die();
+    }
+
     protected override void monster_Move()
     {
         base.monster_Move();

@@ -22,8 +22,13 @@ public class Monster_Parents : MonoBehaviour
         if (monster_HP <= 0)
         {
             GameManager.instance_.scoreUp(monster_Score, transform); // 처치 시 스코어 증가
-            Destroy(gameObject);
+            Die();
         }
+    }
+
+    protected virtual void Die()
+    {
+        Destroy(gameObject);
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)

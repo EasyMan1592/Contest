@@ -13,7 +13,6 @@ public class Boss : Monster_Parents
             if (bullet != null)
             {
                 OnDamage(bullet.bulletDamage);
-                BossManager.instance_.bossUIUpdate();
             }
 
             Destroy(collision.gameObject);
@@ -24,4 +23,19 @@ public class Boss : Monster_Parents
             GameManager.instance_.playerDamage(monster_contactDamage);
         }
     }
+
+    protected override void Die()
+    {
+        gameObject.GetComponent<Collider2D>().enabled = false;
+        GameManager.instance_.blink(gameObject.GetComponent<Renderer>(), 3f);
+        Invoke("setoff", 3f);
+    }
+
+    void setoff()
+    {
+        gameObject.SetActive(false);
+        BossManager.instance_.bossHpBar_Obj.SetActive(false);
+    }
+
+    
 }

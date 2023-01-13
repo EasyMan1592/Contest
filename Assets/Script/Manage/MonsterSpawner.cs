@@ -23,10 +23,13 @@ public class MonsterSpawner : MonoBehaviour
     
     IEnumerator monsterSpawn()
     {
-        float waitTime = Random.Range(spawnMinTime, spawnMaxTime);
-        yield return new WaitForSecondsRealtime(waitTime);
-        int spawnMonsterPrefabNumber = Random.Range(0, monsterPrefabs.Length);
-        Instantiate(monsterPrefabs[spawnMonsterPrefabNumber], new Vector2(spawnPos_.position.x + Random.Range(-2.5f, 2.5f), spawnPos_.position.y), Quaternion.identity);
-        StartCoroutine(monsterSpawn());
+        if(!BossManager.instance_.bossFighting)
+        {
+            float waitTime = Random.Range(spawnMinTime, spawnMaxTime);
+            yield return new WaitForSecondsRealtime(waitTime);
+            int spawnMonsterPrefabNumber = Random.Range(0, monsterPrefabs.Length);
+            Instantiate(monsterPrefabs[spawnMonsterPrefabNumber], new Vector2(spawnPos_.position.x + Random.Range(-2.5f, 2.5f), spawnPos_.position.y), Quaternion.identity);
+            StartCoroutine(monsterSpawn());
+        }
     }
 }

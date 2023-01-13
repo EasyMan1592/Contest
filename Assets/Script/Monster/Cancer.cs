@@ -21,6 +21,11 @@ public class Cancer : Monster_Parents
         cancerAttackArea.transform.localScale = new Vector2(scale, scale);
     }
 
+    protected override void Die()
+    {
+        base.Die();
+    }
+
     protected override void monster_Move()
     {
         base.monster_Move();

@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
 
     public int score = 0;
     public bool isGmaeover = false;
+    public int stage = 0;
     [SerializeField] float invinceTime = 2f;
     [SerializeField] float playerHp = 100;
     [SerializeField] float painGauge = 0;
@@ -57,7 +58,7 @@ public class GameManager : MonoBehaviour
         updateUI();
         canGetDamage = true;
 
-        Mathf.Clamp(FireGrade, 1, 5);
+        
     }
 
     void Update()
@@ -77,7 +78,7 @@ public class GameManager : MonoBehaviour
         painBar.value = painGauge / maxPain;
         if(BossManager.instance_.bossFighting)
         {
-            BossManager.instance_.bossUIUpdate();
+           BossManager.instance_.bossUIUpdate();
         }
     }
 
@@ -131,7 +132,14 @@ public class GameManager : MonoBehaviour
 
     public void fireUpgrade()
     {
-        FireGrade++;
+        if(FireGrade >= 5)
+        {
+            FireGrade = 5;
+        }
+        else
+        {
+            FireGrade++;
+        }
     }
 
     public void onShield(float newshieldtime)
@@ -175,6 +183,12 @@ public class GameManager : MonoBehaviour
         float shieldOnTime = newshieldtime__ - 0.8f;
         yield return new WaitForSecondsRealtime(shieldOnTime);
         StartCoroutine(objectBlink(shieldObj.GetComponent<Renderer>(), 0.8f));
+    }
+
+
+    public void blink(Renderer newgameobject, float newblinktime)
+    {
+        StartCoroutine(objectBlink(newgameobject, newblinktime));
     }
 
     IEnumerator objectBlink(Renderer renderer, float newblinktime)

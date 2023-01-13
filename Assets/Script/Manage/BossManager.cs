@@ -29,17 +29,34 @@ public class BossManager : MonoBehaviour
         }
     }
 
-
     public Transform bossTransform;
     public GameObject[] bosses;
+    public List<GameObject> bosses_ = new List<GameObject>();
+    public GameObject bossHpBar_Obj;
+    public Slider bossHpBar_Sli;
     public float[] bossSpawnScores;
     public bool bossFighting;
-    public GameObject bossHpBar;
+    [SerializeField] Boss[] boss;
+    [SerializeField] float[] maxhp;
+    
+
+    private void Start()
+    {
+        for (int i = 0; i < bosses.Length; i++)
+        {
+            bosses_.Add(Instantiate(bosses[i], new Vector2(0f, 7f), Quaternion.identity));
+            bosses_[i].SetActive(false);
+
+            boss[i] = bosses_[i].GetComponent<Boss>();
+            maxhp[i] = boss[i].monster_HP;
+        }
+    }
 
     void Update()
     {
-        if (GameManager.instance_.score >= bossSpawnScores[0])
+        if (GameManager.instance_.score >= bossSpawnScores[GameManager.instance_.stage])
         {
+            instance_.bossUIUpdate();
             bossFightStart();
         }
     }
@@ -47,22 +64,27 @@ public class BossManager : MonoBehaviour
     void bossFightStart()
     {
         bossFighting = true;
-        spawnBoss(bosses[0]);
+        spawnBoss(bosses_[GameManager.instance_.stage]);
     }
+
+    int j;
 
     void spawnBoss(GameObject newboss)
     {
+        newboss.transform.position = Vector3.MoveTowards(newboss.transform.position, bossTransform.position, 0.01f);
+        if(j == 0) StartCoroutine(bossActive(newboss));
+    }
+
+    IEnumerator bossActive(GameObject newboss)
+    {
+        bossHpBar_Obj.SetActive(true);
         newboss.SetActive(true);
-        newboss.transform.position = Vector3.MoveTowards(bosses[0].transform.position, bossTransform.position, 0.01f);
-        bossHpBar.SetActive(true);
+        j++;
+        yield return null;
     }
 
     public void bossUIUpdate()
     {
-        Boss boss = bosses[0].GetComponent<Boss>();
-        Slider HpBar = bossHpBar.GetComponent<Slider>();
-
-        float maxhp = boss.monster_HP;
-        HpBar.value = boss.monster_HP / maxhp;
+        bossHpBar_Sli.value = boss[GameManager.instance_.stage].monster_HP / maxhp[GameManager.instance_.stage];
     }
 }
