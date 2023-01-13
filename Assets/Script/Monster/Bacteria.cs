@@ -18,4 +18,9 @@ public class Bacteria : Monster_Parents
     {
         base.monster_Move();
     }
+
+    protected override void OnTriggerEnter2D(Collider2D collision)
+    {
+        base.OnTriggerEnter2D(collision);
+    }
 }

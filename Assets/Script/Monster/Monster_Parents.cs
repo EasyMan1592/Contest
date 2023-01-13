@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Monster_Parents : MonoBehaviour, IDamageable
+public class Monster_Parents : MonoBehaviour
 {
     public int monster_Score;
     public float monster_HP;
@@ -26,7 +26,7 @@ public class Monster_Parents : MonoBehaviour, IDamageable
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Bullet") // ÃÑ¾Ë¿¡ ´ê¾ÒÀ» ¶§
         {

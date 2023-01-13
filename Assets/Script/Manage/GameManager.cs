@@ -15,9 +15,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject getScoreText;
 
-    // 아이템 관련 퍼블릭 변수
-    
-    
+    public Slider bossHpBar;
 
     void Awake()
     {
@@ -39,17 +37,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public int score = 0;
+    public bool isGmaeover = false;
     [SerializeField] float invinceTime = 2f;
-    [SerializeField] int score = 0;
     [SerializeField] float playerHp = 100;
     [SerializeField] float painGauge = 0;
     [SerializeField] float maxHp = 100;
     [SerializeField] float maxPain = 100;
     [SerializeField] bool canGetDamage = true;
-    [SerializeField] bool isGmaeover = false;
-    [SerializeField] int FireGrade;
     [SerializeField] GameObject shieldObj;
 
+    public int FireGrade;
     public Slider hpBar;
     public Slider painBar;
     public Text scoreText;
@@ -77,6 +75,10 @@ public class GameManager : MonoBehaviour
         scoreText.text = score.ToString("D5");
         hpBar.value = playerHp / maxHp;
         painBar.value = painGauge / maxPain;
+        if(BossManager.instance_.bossFighting)
+        {
+            BossManager.instance_.bossUIUpdate();
+        }
     }
 
     public void scoreUp(int newscore, Transform hitPoint)
@@ -104,6 +106,10 @@ public class GameManager : MonoBehaviour
     public void playerHeal(float newhealamount)
     {
         playerHp += newhealamount;
+        if (playerHp >= 100)
+        {
+            playerHp = 100;
+        }
         updateUI();
     }
 
@@ -115,7 +121,11 @@ public class GameManager : MonoBehaviour
 
     public void healPain(float newhealamount)
     {
-        painGauge += newhealamount;
+        painGauge -= newhealamount;
+        if (painGauge <= 0)
+        {
+            painGauge = 0;
+        }
         updateUI();
     }
 

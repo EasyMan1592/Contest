@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PgHeal : MonoBehaviour, IItem
+public class PgHeal : Item, IItem
 {
     public void Use()
     {

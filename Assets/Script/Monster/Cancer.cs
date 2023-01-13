@@ -24,6 +24,10 @@ public class Cancer : Monster_Parents
     protected override void monster_Move()
     {
         base.monster_Move();
-        
+    }
+
+    protected override void OnTriggerEnter2D(Collider2D collision)
+    {
+        base.OnTriggerEnter2D(collision);
     }
 }

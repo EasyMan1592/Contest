@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HpHeal : MonoBehaviour, IItem
+public class HpHeal : Item, IItem
 {
     public void Use()
     {
-        GameManager.instance_.playerHeal(15);
+        GameManager.instance_.playerHeal(15f);
         Destroy(gameObject);
     }
 }

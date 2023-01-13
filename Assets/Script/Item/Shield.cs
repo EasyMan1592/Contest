@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shield : MonoBehaviour, IItem
+public class Shield : Item, IItem
 {
     public void Use()
     {

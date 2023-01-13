@@ -92,4 +92,9 @@ public class Germs : Monster_Parents
         dash = true;
     }
 
+    protected override void OnTriggerEnter2D(Collider2D collision)
+    {
+        base.OnTriggerEnter2D(collision);
+    }
+
 }
