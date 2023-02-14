@@ -45,12 +45,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] float painGauge = 0;
     [SerializeField] float maxHp = 100;
     [SerializeField] float maxPain = 100;
-    [SerializeField] bool canGetDamage = true;
     [SerializeField] GameObject shieldObj;
+    public bool canGetDamage = true;
 
     public int FireGrade;
     public Slider hpBar;
+    public Text hpText;
     public Slider painBar;
+    public Text painText;
     public Text scoreText;
 
     [SerializeField] int itemUsePrequancy;
@@ -80,8 +82,10 @@ public class GameManager : MonoBehaviour
     {
         scoreText.text = score.ToString("D5");
         hpBar.value = playerHp / maxHp;
+        hpText.text = playerHp + "%";
         painBar.value = painGauge / maxPain;
-        if(BossManager.instance_.bossFighting)
+        painText.text = painGauge + "%";
+        if (BossManager.instance_.bossFighting)
         {
            BossManager.instance_.bossUIUpdate();
         }
@@ -145,6 +149,12 @@ public class GameManager : MonoBehaviour
         {
             FireGrade++;
         }
+    }
+
+    // ġƮ
+    public void fireGradeSet(int newfiregrade)
+    {
+        FireGrade = newfiregrade;
     }
 
     public void onShield(float newshieldtime)
