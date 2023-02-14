@@ -15,11 +15,9 @@ public class RedBloodCell : Blood
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
         base.OnTriggerEnter2D(collision);
-        if (collision.gameObject.CompareTag("MonsterBullet") && collision.gameObject.CompareTag("Monster"))
+        if (collision.gameObject.CompareTag("MonsterBullet") || collision.gameObject.CompareTag("Monster"))
         {
             die();
         }
     }
-
-
 }

@@ -4,9 +4,16 @@ using UnityEngine;
 
 public class Bacteria : Monster_Parents
 {
+
+    public Transform playerTransform;
+    Vector3 dir;
+
     void Start()
     {
-        transform.rotation = Quaternion.Euler(0f, 0f, Random.Range(-30f, 30f));
+        
+        playerTransform = GameObject.FindWithTag("Player").transform;
+        dir = playerTransform.position - transform.position;
+        transform.rotation = Quaternion.Euler(0f, 0f, playerTransform.position.normalized.z);
     }
 
     void Update()
@@ -21,7 +28,7 @@ public class Bacteria : Monster_Parents
 
     protected override void monster_Move()
     {
-        base.monster_Move();
+        transform.position += dir* monster_Speed * Time.deltaTime;
     }
 
     protected override void OnTriggerEnter2D(Collider2D collision)

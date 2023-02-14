@@ -7,6 +7,7 @@ public class FireUpgrade : Item, IItem
     public void Use()
     {
         GameManager.instance_.fireUpgrade();
+        GameManager.instance_.itemUse();
         Destroy(gameObject);
     }
 }

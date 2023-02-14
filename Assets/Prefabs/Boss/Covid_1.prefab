@@ -100,8 +100,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa2bee5e0b70eba4890c74b94d5fe456, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monster_Score: 1000
-  monster_HP: 200
+  monster_Score: 5000
+  monster_HP: 600
   monster_Speed: 0
   monster_Pain: 0
   monster_contactDamage: 5
@@ -117,6 +117,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd81c1544a436a944830c2edfb4d8dc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bossBullet: {fileID: 3150834698799214262, guid: b6a4269a93cead746b0563944cdc1feb, type: 3}
+  bossBullet_: {fileID: 4716368960681532408, guid: a105c94c934958240920e73e988ab83a, type: 3}
+  monsterPrefabs:
+  - {fileID: 5543528285827746819, guid: 98259b64f574359499b50c93404947a8, type: 3}
+  - {fileID: 1828211474586422126, guid: e8a2219805c542943bf36a9adb09f7a3, type: 3}
+  - {fileID: 4746759177457476267, guid: 85c1cc80d7f18e041bdfdffb136e2625, type: 3}
+  - {fileID: 7071968176351252570, guid: ce5dc558b13a8704fbfc9f4913b072be, type: 3}
 --- !u!58 &6297627250703244916
 CircleCollider2D:
   m_ObjectHideFlags: 0

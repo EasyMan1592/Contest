@@ -53,12 +53,17 @@ public class GameManager : MonoBehaviour
     public Slider painBar;
     public Text scoreText;
 
+    [SerializeField] int itemUsePrequancy;
+
+    public void itemUse()
+    {
+        itemUsePrequancy++;
+    }
+
     private void Start()
     {
         updateUI();
         canGetDamage = true;
-
-        
     }
 
     void Update()

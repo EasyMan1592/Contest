@@ -7,6 +7,7 @@ public class HpHeal : Item, IItem
     public void Use()
     {
         GameManager.instance_.playerHeal(15f);
+        GameManager.instance_.itemUse();
         Destroy(gameObject);
     }
 }

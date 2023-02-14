@@ -5,11 +5,15 @@ using UnityEngine;
 public class WhiteBloodCell : Blood
 {
     public GameObject[] ItemPrefabs; // 0 1 2 3
+    bool a = false;
      
     protected override void die()
     {
         base.die();
-        spawnItem();
+        if(!a)
+        {
+            spawnItem();
+        }
     }
 
     void spawnItem()
@@ -24,6 +28,7 @@ public class WhiteBloodCell : Blood
         if (collision.gameObject.CompareTag("Bullet"))
         {
             die();
+            a = true;
         }
     }
 
