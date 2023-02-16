@@ -6,6 +6,7 @@ using UnityEngine.SocialPlatforms.Impl;
 using System.Linq.Expressions;
 using System;
 using JetBrains.Annotations;
+using UnityEditor.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,12 +18,20 @@ public class GameManager : MonoBehaviour
 
     public Slider bossHpBar;
 
+    public bool pause;
+
+    public bool cutSceneRunning;
+    public bool stage1clear;
+    public bool stage2clear;
+
     void Awake()
     {
         if (instance != null)
             Destroy(gameObject);
         else
+        {
             instance = this;
+        }
     }
 
     public static GameManager instance_
@@ -39,12 +48,10 @@ public class GameManager : MonoBehaviour
 
     public int score = 0;
     public bool isGmaeover = false;
-    public int stage = 0;
+    public int stage;
     [SerializeField] float invinceTime = 2f;
-    [SerializeField] float playerHp = 100;
-    [SerializeField] float painGauge = 0;
-    [SerializeField] float maxHp = 100;
-    [SerializeField] float maxPain = 100;
+    public float playerHp = 100;
+    public float painGauge = 0;
     [SerializeField] GameObject shieldObj;
     public bool canGetDamage = true;
 
@@ -57,6 +64,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] int itemUsePrequancy;
 
+    public int difficult = 0;
+
     public void itemUse()
     {
         itemUsePrequancy++;
@@ -66,6 +75,8 @@ public class GameManager : MonoBehaviour
     {
         updateUI();
         canGetDamage = true;
+        pause = false;
+        cutSceneRunning = false;
     }
 
     void Update()
@@ -81,9 +92,9 @@ public class GameManager : MonoBehaviour
     public void updateUI()
     {
         scoreText.text = score.ToString("D5");
-        hpBar.value = playerHp / maxHp;
+        hpBar.value = playerHp;
         hpText.text = playerHp + "%";
-        painBar.value = painGauge / maxPain;
+        painBar.value = painGauge;
         painText.text = painGauge + "%";
         if (BossManager.instance_.bossFighting)
         {
@@ -104,6 +115,10 @@ public class GameManager : MonoBehaviour
         {
             playerHp -= newdamage;
             contactTheMonster(invinceTime);
+            if (playerHp <= 0)
+            {
+                playerHp = 0;
+            }
             updateUI();
             return true;
         }
@@ -120,22 +135,42 @@ public class GameManager : MonoBehaviour
         {
             playerHp = 100;
         }
+        
+        updateUI();
+    }
+
+    //치트
+    public void hpSet(float newhp)
+    {
+        playerHp = newhp;
         updateUI();
     }
 
     public void getPain(float newpain)
     {
         painGauge += newpain;
+        if (painGauge >= 100)
+        {
+            painGauge = 100;
+        }
         updateUI();
     }
 
     public void healPain(float newhealamount)
     {
         painGauge -= newhealamount;
+        
         if (painGauge <= 0)
         {
             painGauge = 0;
         }
+        updateUI();
+    }
+
+    // 치트
+    public void pgSet(float newpg)
+    {
+        painGauge = newpg;
         updateUI();
     }
 
@@ -151,7 +186,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // ġƮ
+    // 치트
     public void fireGradeSet(int newfiregrade)
     {
         FireGrade = newfiregrade;
@@ -200,7 +235,6 @@ public class GameManager : MonoBehaviour
         StartCoroutine(objectBlink(shieldObj.GetComponent<Renderer>(), 0.8f));
     }
 
-
     public void blink(Renderer newgameobject, float newblinktime)
     {
         StartCoroutine(objectBlink(newgameobject, newblinktime));
@@ -223,8 +257,6 @@ public class GameManager : MonoBehaviour
         }
         renderer.enabled = true;
     }
-
-    
 
     public void Gameover()
     {

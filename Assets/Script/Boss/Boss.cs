@@ -24,18 +24,33 @@ public class Boss : Monster_Parents
         }
     }
 
+    public void Die__()
+    {
+        monster_HP = 0;
+    }
+
+    int a = 0;
     protected override void Die()
     {
+        Boss_Stage1 boss_stage1 = GetComponent<Boss_Stage1>();
+        boss_stage1.enabled = false;
+
         gameObject.GetComponent<Collider2D>().enabled = false;
         GameManager.instance_.blink(gameObject.GetComponent<Renderer>(), 3f);
-        Invoke("setoff", 3f);
+
+        BossManager.instance_.bossClear();
+        
+        if(a == 0)
+        {
+            Invoke("setoff", 3f);
+            a++;
+        }
     }
 
     void setoff()
     {
+        GameManager.instance_.scoreUp(monster_Score, transform);
         gameObject.SetActive(false);
         BossManager.instance_.bossHpBar_Obj.SetActive(false);
     }
-
-    
 }

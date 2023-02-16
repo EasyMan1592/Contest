@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BloodSpawner : MonoBehaviour
 {
-    public GameObject[] bloodPrefabs; // 0: 归趋备, 1: 利趋备
+    public GameObject[] bloodPrefabs; // 0: 利趋备, 1: 归趋备
 
     [SerializeField] float spawnMinTime;
     [SerializeField] float spawnMaxTime;
@@ -12,20 +12,51 @@ public class BloodSpawner : MonoBehaviour
     [SerializeField] GameObject spawnPos;
     [SerializeField] Transform spawnPos_;
 
-    // Start is called before the first frame update
+    bool isCoroutineRunning;
+
+    private void Awake()
+    {
+        Cheat.OnAllCouroutinePlay += bloodSpawn_Play;
+    }
+
     void Start()
     {
         spawnPos = GameObject.Find("BloodSpawner");
         spawnPos_ = spawnPos.GetComponent<Transform>();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F9))
+        {
+            Instantiate(bloodPrefabs[1], new Vector2(spawnPos_.position.x + Random.Range(-2.5f, 2.5f), spawnPos_.position.y), Quaternion.identity);
+        }
+
+        if (Input.GetKeyDown(KeyCode.F10))
+        {
+            Instantiate(bloodPrefabs[0], new Vector2(spawnPos_.position.x + Random.Range(-2.5f, 2.5f), spawnPos_.position.y), Quaternion.identity);
+        }
+    }
+
+    public void bloodSpawn_Play()
+    {
         StartCoroutine(bloodSpawn());
     }
 
     IEnumerator bloodSpawn()
     {
-        float waitTime = Random.Range(spawnMinTime, spawnMaxTime);
-        yield return new WaitForSecondsRealtime(waitTime);
-        int spawnMonsterPrefabNumber = Random.Range(0, bloodPrefabs.Length);
-        Instantiate(bloodPrefabs[spawnMonsterPrefabNumber], new Vector2(spawnPos_.position.x + Random.Range(-2.5f, 2.5f), spawnPos_.position.y), Quaternion.identity);
-        StartCoroutine(bloodSpawn());
+        if (!GameManager.instance_.pause)
+        {
+            if(!isCoroutineRunning)
+            {
+                isCoroutineRunning = true;
+                float waitTime = Random.Range(spawnMinTime, spawnMaxTime);
+                yield return new WaitForSecondsRealtime(waitTime);
+                int spawnMonsterPrefabNumber = Random.Range(0, bloodPrefabs.Length);
+                Instantiate(bloodPrefabs[spawnMonsterPrefabNumber], new Vector2(spawnPos_.position.x + Random.Range(-2.5f, 2.5f), spawnPos_.position.y), Quaternion.identity);
+                isCoroutineRunning = false;
+                StartCoroutine(bloodSpawn());
+            }
+        }
     }
 }

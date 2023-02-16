@@ -100,14 +100,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monster_Score: 200
-  monster_HP: 10
+  monster_HP: 12
   monster_Speed: 3
   monster_Pain: 5
   monster_contactDamage: 10
   playerTransform: {fileID: 0}
   germs_BulletPrefab: {fileID: 7510247933867204161, guid: 6b99bcc5e7a301443805d07e4c776adc, type: 3}
   keyChangeTime: 1.5
-  dashTime: 5
+  dashTime: 7.5
   dashForce: 1
   dash: 0
   delayTime: 0.7

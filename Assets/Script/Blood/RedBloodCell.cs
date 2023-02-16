@@ -9,13 +9,18 @@ public class RedBloodCell : Blood
     protected override void die()
     {
         base.die();
-        GameManager.instance_.getPain(Damage);
+        
     }
 
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
         base.OnTriggerEnter2D(collision);
-        if (collision.gameObject.CompareTag("MonsterBullet") || collision.gameObject.CompareTag("Monster"))
+        if (collision.gameObject.CompareTag("MonsterBullet") || collision.gameObject.CompareTag("Monster") )
+        {
+            die();
+            GameManager.instance_.getPain(Damage);
+        }
+        else if(collision.gameObject.CompareTag("Bullet"))
         {
             die();
         }

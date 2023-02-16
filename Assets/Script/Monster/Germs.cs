@@ -51,7 +51,14 @@ public class Germs : Monster_Parents
 
     void Grems_Move()
     {
-        transform.Translate(new Vector2(-monster_Speed * key * Time.deltaTime, 0));
+        if (transform.position.y > 0.6)
+        {
+            transform.Translate(new Vector2(-1 * key, -0.3f) * monster_Speed * Time.deltaTime);
+        }
+        else
+        {
+            transform.Translate(new Vector2(-1 * key, 0) * monster_Speed * Time.deltaTime);
+        }
     }
 
     IEnumerator fire_Delay()

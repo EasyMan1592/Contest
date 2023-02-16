@@ -9,47 +9,54 @@ public class Fire : MonoBehaviour
 
     [SerializeField]
     private float fireTime;
-    IEnumerator fireCoroutine;
 
-    void Start()
+    private void Awake()
     {
-        fireCoroutine = fire();
-        StartCoroutine(fireCoroutine);
+        Cheat.OnAllCouroutinePlay += fire_Play;
+    }
+
+    void fire_Play()
+    {
+        StartCoroutine(fire());
     }
 
     IEnumerator fire()
     {
-        fireCoroutine = fire();
-        switch(GameManager.instance_.FireGrade)
+        if (!GameManager.instance_.stage1clear)
         {
-            case 1:
-                Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-                break;
-            case 2:
-                Instantiate(bulletPrefab, new Vector2(transform.position.x - 0.2f, transform.position.y), Quaternion.identity);
-                Instantiate(bulletPrefab, new Vector2(transform.position.x + 0.2f, transform.position.y), Quaternion.identity);
-                break;
-            case 3:
-                Instantiate(bulletPrefab, new Vector2(transform.position.x - 0.2f, transform.position.y), Quaternion.Euler(0f, 0f, +7));
-                Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-                Instantiate(bulletPrefab, new Vector2(transform.position.x + 0.2f, transform.position.y), Quaternion.Euler(0f, 0f, -7));
-                break;
-            case 4:
-                Instantiate(bulletPrefab, new Vector2(transform.position.x - 0.2f, transform.position.y), Quaternion.Euler(0f, 0f, +7));
-                Instantiate(bulletPrefab, new Vector2(transform.position.x - 0.13f, transform.position.y), Quaternion.Euler(0f, 0f, +1));
-                Instantiate(bulletPrefab, new Vector2(transform.position.x + 0.13f, transform.position.y), Quaternion.Euler(0f, 0f, -1));
-                Instantiate(bulletPrefab, new Vector2(transform.position.x + 0.2f, transform.position.y), Quaternion.Euler(0f, 0f, -7));
-                break;
-            case 5:
-                Instantiate(bulletPrefab, new Vector2(transform.position.x - 0.2f, transform.position.y), Quaternion.Euler(0f, 0f, +7));
-                Instantiate(bulletPrefab, new Vector2(transform.position.x - 0.16f, transform.position.y), Quaternion.Euler(0f, 0f, +2));
-                Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-                Instantiate(bulletPrefab, new Vector2(transform.position.x + 0.16f, transform.position.y), Quaternion.Euler(0f, 0f, -2));
-                Instantiate(bulletPrefab, new Vector2(transform.position.x + 0.2f, transform.position.y), Quaternion.Euler(0f, 0f, -7));
-                break;
+            if (!GameManager.instance_.pause)
+            {
+                switch (GameManager.instance_.FireGrade)
+                {
+                    case 1:
+                        Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+                        break;
+                    case 2:
+                        Instantiate(bulletPrefab, new Vector2(transform.position.x - 0.2f, transform.position.y), Quaternion.identity);
+                        Instantiate(bulletPrefab, new Vector2(transform.position.x + 0.2f, transform.position.y), Quaternion.identity);
+                        break;
+                    case 3:
+                        Instantiate(bulletPrefab, new Vector2(transform.position.x - 0.2f, transform.position.y), Quaternion.Euler(0f, 0f, +7));
+                        Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+                        Instantiate(bulletPrefab, new Vector2(transform.position.x + 0.2f, transform.position.y), Quaternion.Euler(0f, 0f, -7));
+                        break;
+                    case 4:
+                        Instantiate(bulletPrefab, new Vector2(transform.position.x - 0.2f, transform.position.y), Quaternion.Euler(0f, 0f, +7));
+                        Instantiate(bulletPrefab, new Vector2(transform.position.x - 0.13f, transform.position.y), Quaternion.Euler(0f, 0f, +1));
+                        Instantiate(bulletPrefab, new Vector2(transform.position.x + 0.13f, transform.position.y), Quaternion.Euler(0f, 0f, -1));
+                        Instantiate(bulletPrefab, new Vector2(transform.position.x + 0.2f, transform.position.y), Quaternion.Euler(0f, 0f, -7));
+                        break;
+                    case 5:
+                        Instantiate(bulletPrefab, new Vector2(transform.position.x - 0.2f, transform.position.y), Quaternion.Euler(0f, 0f, +7));
+                        Instantiate(bulletPrefab, new Vector2(transform.position.x - 0.16f, transform.position.y), Quaternion.Euler(0f, 0f, +2));
+                        Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+                        Instantiate(bulletPrefab, new Vector2(transform.position.x + 0.16f, transform.position.y), Quaternion.Euler(0f, 0f, -2));
+                        Instantiate(bulletPrefab, new Vector2(transform.position.x + 0.2f, transform.position.y), Quaternion.Euler(0f, 0f, -7));
+                        break;
+                }
+                yield return new WaitForSecondsRealtime(fireTime);
+                StartCoroutine(fire());
+            }
         }
-        yield return new WaitForSecondsRealtime(fireTime);
-        StartCoroutine(fireCoroutine);
     }
-
 }

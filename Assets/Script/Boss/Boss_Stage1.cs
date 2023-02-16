@@ -17,7 +17,7 @@ public class Boss_Stage1 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        patternLength = 3;
+        patternLength = 4;
         isPatternWorking = false;
         workingPattern = -1;
     }

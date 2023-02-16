@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monster_Score: 100
-  monster_HP: 15
+  monster_HP: 16
   monster_Speed: 4
   monster_Pain: 5
   monster_contactDamage: 3

@@ -15,14 +15,19 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
-        if (pos.x < 0f) pos.x = 0f;
-        if (pos.x > 1f) pos.x = 1f;
-        if (pos.y < 0f) pos.y = 0f;
-        if (pos.y > 1f) pos.y = 1f;
-        transform.position = Camera.main.ViewportToWorldPoint(pos);
+        if (!GameManager.instance_.stage1clear)
+        {
+            Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
+            if (pos.x < 0f) pos.x = 0f;
+            if (pos.x > 1f) pos.x = 1f;
+            if (pos.y < 0f) pos.y = 0f;
+            if (pos.y > 1f) pos.y = 1f;
+            transform.position = Camera.main.ViewportToWorldPoint(pos);
 
-        moveControl();
+            moveControl();
+        }
+
+        cutSceneMove();
     }
 
     void moveControl()
@@ -30,6 +35,17 @@ public class Player : MonoBehaviour
         float x = Input.GetAxis("Horizontal") * speed;
         float y = Input.GetAxis("Vertical") * speed;
         playerRigid.velocity = new Vector2(x, y);
+    }
+
+    // ÄÆ¾À ¿òÁ÷ÀÓ
+
+    public void cutSceneMove()
+    {
+        if (GameManager.instance_.stage1clear)
+        {
+            playerRigid.velocity = Vector3.zero;
+            transform.position = Vector3.MoveTowards(transform.position, new Vector2(transform.position.x, 10), 0.01f);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

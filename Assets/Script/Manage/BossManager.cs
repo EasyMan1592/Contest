@@ -8,6 +8,8 @@ using Unity.VisualScripting;
 public class BossManager : MonoBehaviour
 {
     private static BossManager instance = null;
+    public GameObject player;
+    
 
     void Awake()
     {
@@ -38,7 +40,6 @@ public class BossManager : MonoBehaviour
     public bool bossFighting;
     [SerializeField] Boss[] boss;
     [SerializeField] float[] maxhp;
-    
 
     private void Start()
     {
@@ -87,4 +88,60 @@ public class BossManager : MonoBehaviour
     {
         bossHpBar_Sli.value = boss[GameManager.instance_.stage].monster_HP / maxhp[GameManager.instance_.stage];
     }
+
+    public void bossClear()
+    {
+        
+        if(GameManager.instance_.stage == 0 )
+        {
+            StartCoroutine(clearCutScene_Stage1());
+        }
+        else if (GameManager.instance_.stage == 1)
+        {
+            
+        }
+    }
+
+    public void GotoStage2_()
+    {
+        StartCoroutine(GoToStage2());
+    }
+
+    IEnumerator clearCutScene_Stage1()
+    {
+        yield return new WaitForSecondsRealtime(6f);
+        GameManager.instance_.stage1clear = true;
+        yield return new WaitForSecondsRealtime(1f);
+        StageManager.instance.black_Obj.SetActive(true);
+        StageManager.instance.BlackOut_();
+        yield return new WaitForSecondsRealtime(3f);
+        StageManager.instance.goToStage2();
+        yield return new WaitForSecondsRealtime(0.7f);
+        StageManager.instance.black_Obj.SetActive(false);
+        GameManager.instance_.stage = 1;
+        GameManager.instance_.stage1clear = false;
+        bossFighting = false;
+        MonsterSpawner.time = 1000;
+        Cheat.coroutinePlay();
+    }
+
+    IEnumerator GoToStage2()
+    {
+        GameManager.instance_.stage1clear = true;
+        StageManager.instance.black_Obj.SetActive(true);
+        StageManager.instance.Stage1in_();
+        StageManager.instance.goToStage2();
+        yield return new WaitForSecondsRealtime(0.7f);
+        StageManager.instance.black_Obj.SetActive(false);
+        GameManager.instance_.stage = 1;
+        GameManager.instance_.stage1clear = false;
+        bossFighting = false;
+        MonsterSpawner.time = 1000;
+        Cheat.coroutinePlay();
+    }
+
+
+
+
+
 }
