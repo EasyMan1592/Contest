@@ -29,11 +29,10 @@ public class Boss : Monster_Parents
         monster_HP = 0;
     }
 
-    int a = 0;
+    public static int a = 0;
     protected override void Die()
     {
-        Boss_Stage1 boss_stage1 = GetComponent<Boss_Stage1>();
-        boss_stage1.enabled = false;
+        BossManager.instance_.boss[GameManager.instance_.stage].enabled = false;
 
         gameObject.GetComponent<Collider2D>().enabled = false;
         GameManager.instance_.blink(gameObject.GetComponent<Renderer>(), 3f);

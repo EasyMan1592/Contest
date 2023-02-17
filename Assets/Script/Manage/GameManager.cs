@@ -11,18 +11,19 @@ using UnityEditor.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance = null;
+    public GameObject player_Obj;
     public Player player;
     public SpriteRenderer player_SPR;
 
     public GameObject getScoreText;
-
-    public Slider bossHpBar;
 
     public bool pause;
 
     public bool cutSceneRunning;
     public bool stage1clear;
     public bool stage2clear;
+
+    public GameObject GameoverDisplay;
 
     void Awake()
     {
@@ -47,7 +48,7 @@ public class GameManager : MonoBehaviour
     }
 
     public int score = 0;
-    public bool isGmaeover = false;
+    public bool isGameover = false;
     public int stage;
     [SerializeField] float invinceTime = 2f;
     public float playerHp = 100;
@@ -62,13 +63,21 @@ public class GameManager : MonoBehaviour
     public Text painText;
     public Text scoreText;
 
-    [SerializeField] int itemUsePrequancy;
+    public int itemUsePrequancy;
 
-    public int difficult = 0;
+    public float time;
+
+    public int Next;
+    public int BestScore;
+
+    public bool inTop5;
 
     public void itemUse()
     {
-        itemUsePrequancy++;
+        if (!isGameover)
+        {
+            itemUsePrequancy++;
+        }
     }
 
     private void Start()
@@ -77,6 +86,7 @@ public class GameManager : MonoBehaviour
         canGetDamage = true;
         pause = false;
         cutSceneRunning = false;
+        inTop5 = false;
     }
 
     void Update()
@@ -85,58 +95,84 @@ public class GameManager : MonoBehaviour
         {
             Time.timeScale = 0;
         }
+
+        timer();
+
+        Gameover();
+    }
+
+    void timer()
+    {
+        if (!isGameover)
+        {
+            time += Time.deltaTime;
+        }
     }
 
     ///================///
 
     public void updateUI()
     {
-        scoreText.text = score.ToString("D5");
-        hpBar.value = playerHp;
-        hpText.text = playerHp + "%";
-        painBar.value = painGauge;
-        painText.text = painGauge + "%";
-        if (BossManager.instance_.bossFighting)
+
+        if (!isGameover)
         {
-           BossManager.instance_.bossUIUpdate();
+            scoreText.text = score.ToString("D5");
+            hpBar.value = playerHp;
+            painBar.value = painGauge;
+            hpText.text = playerHp + "%";
+            painText.text = painGauge + "%";
+            if (BossManager.instance_.bossFighting)
+            {
+                BossManager.instance_.bossUIUpdate();
+            }
         }
     }
 
     public void scoreUp(int newscore, Transform hitPoint)
     {
-        score += newscore;
-        //GameObject text = Instantiate(getScoreText, hitPoint.position, Quaternion.identity, GameObject.Find("Canvas").transform);
-        updateUI();
+        if (!isGameover)
+        {
+            score += newscore;
+            //GameObject text = Instantiate(getScoreText, hitPoint.position, Quaternion.identity, GameObject.Find("Canvas").transform);
+            updateUI();
+        }
     }
 
     public bool playerDamage(float newdamage)
     {
-        if (canGetDamage == true)
+        if (!isGameover)
         {
-            playerHp -= newdamage;
-            contactTheMonster(invinceTime);
-            if (playerHp <= 0)
+            if (canGetDamage)
             {
-                playerHp = 0;
+                playerHp -= newdamage;
+                contactTheMonster(invinceTime);
+                if (playerHp <= 0)
+                {
+                    playerHp = 0;
+                }
+                updateUI();
+                return true;
             }
-            updateUI();
-            return true;
+            else
+            {
+                return false;
+            }
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 
     public void playerHeal(float newhealamount)
     {
-        playerHp += newhealamount;
-        if (playerHp >= 100)
+        if (!isGameover)
         {
-            playerHp = 100;
+            playerHp += newhealamount;
+            if (playerHp >= 100)
+            {
+                playerHp = 100;
+            }
+
+            updateUI();
         }
-        
-        updateUI();
     }
 
     //치트
@@ -148,23 +184,29 @@ public class GameManager : MonoBehaviour
 
     public void getPain(float newpain)
     {
-        painGauge += newpain;
-        if (painGauge >= 100)
+        if (!isGameover)
         {
-            painGauge = 100;
+            painGauge += newpain;
+            if (painGauge >= 100)
+            {
+                painGauge = 100;
+            }
+            updateUI();
         }
-        updateUI();
     }
 
     public void healPain(float newhealamount)
     {
-        painGauge -= newhealamount;
-        
-        if (painGauge <= 0)
+        if (!isGameover)
         {
-            painGauge = 0;
+            painGauge -= newhealamount;
+
+            if (painGauge <= 0)
+            {
+                painGauge = 0;
+            }
+            updateUI();
         }
-        updateUI();
     }
 
     // 치트
@@ -176,7 +218,7 @@ public class GameManager : MonoBehaviour
 
     public void fireUpgrade()
     {
-        if(FireGrade >= 5)
+        if (FireGrade >= 5)
         {
             FireGrade = 5;
         }
@@ -194,22 +236,28 @@ public class GameManager : MonoBehaviour
 
     public void onShield(float newshieldtime)
     {
-        IEnumerator shield_ = shield(newshieldtime);
-        IEnumerator shieldBlink_ = shieldBlink(newshieldtime);
-        StopCoroutine(shield_);
-        StartCoroutine(shield_);
-        StopCoroutine(shieldBlink_);
-        StartCoroutine(shieldBlink_);
+        if (!isGameover)
+        {
+            IEnumerator shield_ = shield(newshieldtime);
+            IEnumerator shieldBlink_ = shieldBlink(newshieldtime);
+            StopCoroutine(shield_);
+            StartCoroutine(shield_);
+            StopCoroutine(shieldBlink_);
+            StartCoroutine(shieldBlink_);
+        }
     }
 
     public void contactTheMonster(float newinvincetime)
     {
-        IEnumerator invince_ = invince(newinvincetime);
-        IEnumerator playerBlink = objectBlink(player_SPR, newinvincetime);
-        StopCoroutine(invince_);
-        StartCoroutine(invince_);
-        StopCoroutine(playerBlink);
-        StartCoroutine(playerBlink);
+        if (!isGameover)
+        {
+            IEnumerator invince_ = invince(newinvincetime);
+            IEnumerator playerBlink = objectBlink(player_SPR, newinvincetime);
+            StopCoroutine(invince_);
+            StartCoroutine(invince_);
+            StopCoroutine(playerBlink);
+            StartCoroutine(playerBlink);
+        }
     }
 
     IEnumerator invince(float newinvincetime_)
@@ -225,7 +273,7 @@ public class GameManager : MonoBehaviour
         canGetDamage = false;
         yield return new WaitForSecondsRealtime(newshieldtime_);
         shieldObj.SetActive(false);
-        canGetDamage = true;
+        if(!Cheat.instance.isF4On) canGetDamage = true;
     }
 
     IEnumerator shieldBlink(float newshieldtime__)
@@ -258,8 +306,17 @@ public class GameManager : MonoBehaviour
         renderer.enabled = true;
     }
 
-    public void Gameover()
+    void Gameover()
     {
-        isGmaeover = true;
+        if(playerHp <= 0 || painGauge >= 100)
+        {
+            Cheat.instance.canDisplayOn = false;
+            isGameover = true;
+            pause = true;
+            GameoverDisplay.SetActive(true);
+            
+            GameoverManager.instance.gameoverDisplaySet_();
+        }
     }
+
 }

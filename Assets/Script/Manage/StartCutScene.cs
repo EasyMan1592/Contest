@@ -28,7 +28,7 @@ public class StartCutScene : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.7f);
         StageManager.instance.black_Obj.SetActive(false);
         GameManager.instance_.stage1clear = false;
-        MonsterSpawner.time = 0;
+        GameManager.instance_.time = 0;
         Cheat.coroutinePlay();
     }
 }

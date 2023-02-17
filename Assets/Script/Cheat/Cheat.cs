@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -35,6 +36,8 @@ public class Cheat : MonoBehaviour
     public bool isF7DisplayOn;
     public bool isF8DisplayOn;
 
+    public bool isF4On;
+
     public static void coroutinePlay()
     {
         OnAllCouroutinePlay();
@@ -47,8 +50,10 @@ public class Cheat : MonoBehaviour
         isF1DisplayOn = false;
         isF2DisplayOn = false;
         isF3DisplayOn = false;
+        isF4On = false;
         isF7DisplayOn = false;
         isF8DisplayOn = false;
+        
 
         f3_Start();
         f7_Start();
@@ -114,7 +119,8 @@ public class Cheat : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.F4))
             {
                 GameManager.instance_.canGetDamage = false;
-                playerRenderer.color = Color.yellow;
+                playerRenderer.color = Color.yellow; 
+                isF4On = true;
             }
 
             // F5
@@ -122,6 +128,7 @@ public class Cheat : MonoBehaviour
             {
                 GameManager.instance_.canGetDamage = true;
                 playerRenderer.color = Color.white;
+                isF4On = false;
             }
 
             // F6
@@ -199,7 +206,7 @@ public class Cheat : MonoBehaviour
 
 
 
-    void killAll()
+    public void killAll()
     {
         if (BossManager.instance_.bossFighting)
         {
@@ -207,7 +214,8 @@ public class Cheat : MonoBehaviour
             b.GetComponent<Boss>().Die__();
         }
 
-        for (int i = 0; i < 100; i++)
+
+        for (int i = 0; i < MonsterList.instance.monsters.Count; i++)
         {
             MonsterList.instance.monsters[i].GetComponent<Monster_Parents>().Die_();
         }

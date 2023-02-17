@@ -17,8 +17,6 @@ public class MonsterSpawner : MonoBehaviour
 
     bool isCoroutineRunning;
 
-    public static float time;
-
     private void Awake()
     {
         Cheat.OnAllCouroutinePlay += monsterSpawn_Play;
@@ -35,12 +33,7 @@ public class MonsterSpawner : MonoBehaviour
     {
         monsterListRemove();
 
-        timer();
-    }
-
-    void timer()
-    {
-        time += Time.deltaTime;
+        
     }
 
     void monsterListRemove()
@@ -67,7 +60,7 @@ public class MonsterSpawner : MonoBehaviour
             {
                 if (!isCoroutineRunning)
                 {
-                    if (0 <= time && time < 15)
+                    if (0 <= GameManager.instance_.time && GameManager.instance_.time < 15)
                     {
                         isCoroutineRunning = true;
                         float waitTime = Random.Range(spawnMinTime + 1, spawnMaxTime + 1);
@@ -76,7 +69,7 @@ public class MonsterSpawner : MonoBehaviour
                         isCoroutineRunning = false;
                         StartCoroutine(monsterSpawn());
                     }
-                    else if (15 <= time && time < 45)
+                    else if (15 <= GameManager.instance_.time && GameManager.instance_.time < 45)
                     {
                         isCoroutineRunning = true;
                         float waitTime = Random.Range(spawnMinTime, spawnMaxTime);
@@ -85,7 +78,7 @@ public class MonsterSpawner : MonoBehaviour
                         isCoroutineRunning = false;
                         StartCoroutine(monsterSpawn());
                     }
-                    else if (45 <= time && time < 75)
+                    else if (45 <= GameManager.instance_.time && GameManager.instance_.time < 75)
                     {
                         isCoroutineRunning = true;
                         float waitTime = Random.Range(spawnMinTime, spawnMaxTime);
@@ -95,12 +88,69 @@ public class MonsterSpawner : MonoBehaviour
                         isCoroutineRunning = false;
                         StartCoroutine(monsterSpawn());
                     }
-                    else if (75 <= time && time < 115)
+                    else if (75 <= GameManager.instance_.time && GameManager.instance_.time < 115)
                     {
                         isCoroutineRunning = true;
                         float waitTime = Random.Range(spawnMinTime, spawnMaxTime);
                         yield return new WaitForSecondsRealtime(waitTime);
                         int spawnMonsterPrefabNumber = Random.Range(0, 3);
+                        MonsterList.instance.monsters.Add(Instantiate(monsterPrefabs[spawnMonsterPrefabNumber], new Vector2(spawnPos_.position.x + Random.Range(-2.5f, 2.5f), spawnPos_.position.y), Quaternion.identity));
+                        isCoroutineRunning = false;
+                        StartCoroutine(monsterSpawn());
+                    }
+                    else if (1000 <= GameManager.instance_.time && GameManager.instance_.time < 1030)
+                    {
+                        isCoroutineRunning = true;
+                        float waitTime = Random.Range(spawnMinTime, spawnMaxTime);
+                        yield return new WaitForSecondsRealtime(waitTime);
+                        int spawnMonsterPrefabNumber = Random.Range(0, 3);
+                        MonsterList.instance.monsters.Add(Instantiate(monsterPrefabs[spawnMonsterPrefabNumber], new Vector2(spawnPos_.position.x + Random.Range(-2.5f, 2.5f), spawnPos_.position.y), Quaternion.identity));
+                        isCoroutineRunning = false;
+                        StartCoroutine(monsterSpawn());
+                    }
+                    else if (1030 <= GameManager.instance_.time && GameManager.instance_.time < 1060)
+                    {
+                        isCoroutineRunning = true;
+                        float waitTime = Random.Range(spawnMinTime, spawnMaxTime);
+                        yield return new WaitForSecondsRealtime(waitTime);
+                        int spawnMonsterPrefabNumber = Random.Range(0, 10);
+                        if (spawnMonsterPrefabNumber == 0) spawnMonsterPrefabNumber = 0;
+                        else if (spawnMonsterPrefabNumber == 1) spawnMonsterPrefabNumber = 0;
+                        else if (spawnMonsterPrefabNumber == 2) spawnMonsterPrefabNumber = 0;
+                        else if (spawnMonsterPrefabNumber == 3) spawnMonsterPrefabNumber = 1;
+                        else if (spawnMonsterPrefabNumber == 4) spawnMonsterPrefabNumber = 1;
+                        else if (spawnMonsterPrefabNumber == 5) spawnMonsterPrefabNumber = 1;
+                        else if (spawnMonsterPrefabNumber == 6) spawnMonsterPrefabNumber = 2;
+                        else if (spawnMonsterPrefabNumber == 7) spawnMonsterPrefabNumber = 2;
+                        else if (spawnMonsterPrefabNumber == 8) spawnMonsterPrefabNumber = 2;
+                        else if (spawnMonsterPrefabNumber == 9) spawnMonsterPrefabNumber = 3;
+                        MonsterList.instance.monsters.Add(Instantiate(monsterPrefabs[spawnMonsterPrefabNumber], new Vector2(spawnPos_.position.x + Random.Range(-2.5f, 2.5f), spawnPos_.position.y), Quaternion.identity));
+                        isCoroutineRunning = false;
+                        StartCoroutine(monsterSpawn());
+                    }
+                    else if (1030 <= GameManager.instance_.time && GameManager.instance_.time < 1060)
+                    {
+                        isCoroutineRunning = true;
+                        float waitTime = Random.Range(spawnMinTime, spawnMaxTime - 0.5f);
+                        yield return new WaitForSecondsRealtime(waitTime);
+                        int spawnMonsterPrefabNumber = Random.Range(0, 7);
+                        if (spawnMonsterPrefabNumber == 0) spawnMonsterPrefabNumber = 0;
+                        else if (spawnMonsterPrefabNumber == 1) spawnMonsterPrefabNumber = 0;
+                        else if (spawnMonsterPrefabNumber == 2) spawnMonsterPrefabNumber = 1;
+                        else if (spawnMonsterPrefabNumber == 3) spawnMonsterPrefabNumber = 1;
+                        else if (spawnMonsterPrefabNumber == 4) spawnMonsterPrefabNumber = 2;
+                        else if (spawnMonsterPrefabNumber == 5) spawnMonsterPrefabNumber = 2;
+                        else if (spawnMonsterPrefabNumber == 6) spawnMonsterPrefabNumber = 3;
+                        MonsterList.instance.monsters.Add(Instantiate(monsterPrefabs[spawnMonsterPrefabNumber], new Vector2(spawnPos_.position.x + Random.Range(-2.5f, 2.5f), spawnPos_.position.y), Quaternion.identity));
+                        isCoroutineRunning = false;
+                        StartCoroutine(monsterSpawn());
+                    }
+                    else if (1060 <= GameManager.instance_.time && GameManager.instance_.time < 1115)
+                    {
+                        isCoroutineRunning = true;
+                        float waitTime = Random.Range(spawnMinTime, spawnMaxTime - 0.5f);
+                        yield return new WaitForSecondsRealtime(waitTime);
+                        int spawnMonsterPrefabNumber = Random.Range(0, 4);
                         MonsterList.instance.monsters.Add(Instantiate(monsterPrefabs[spawnMonsterPrefabNumber], new Vector2(spawnPos_.position.x + Random.Range(-2.5f, 2.5f), spawnPos_.position.y), Quaternion.identity));
                         isCoroutineRunning = false;
                         StartCoroutine(monsterSpawn());

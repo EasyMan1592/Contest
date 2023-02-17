@@ -36,9 +36,9 @@ public class BossManager : MonoBehaviour
     public List<GameObject> bosses_ = new List<GameObject>();
     public GameObject bossHpBar_Obj;
     public Slider bossHpBar_Sli;
-    public float[] bossSpawnScores;
+    public float[] bossSpawnTime;
     public bool bossFighting;
-    [SerializeField] Boss[] boss;
+    public Boss[] boss;
     [SerializeField] float[] maxhp;
 
     private void Start()
@@ -55,15 +55,16 @@ public class BossManager : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.instance_.score >= bossSpawnScores[GameManager.instance_.stage])
+        bossUIUpdate();
+        if ((int)GameManager.instance_.time == bossSpawnTime[GameManager.instance_.stage])
         {
-            instance_.bossUIUpdate();
-            bossFightStart();
+                bossFightStart();
         }
     }
 
     void bossFightStart()
     {
+        Boss.a = 0;
         bossFighting = true;
         spawnBoss(bosses_[GameManager.instance_.stage]);
     }
@@ -121,7 +122,7 @@ public class BossManager : MonoBehaviour
         GameManager.instance_.stage = 1;
         GameManager.instance_.stage1clear = false;
         bossFighting = false;
-        MonsterSpawner.time = 1000;
+        GameManager.instance_.time = 1000;
         Cheat.coroutinePlay();
     }
 
@@ -136,7 +137,7 @@ public class BossManager : MonoBehaviour
         GameManager.instance_.stage = 1;
         GameManager.instance_.stage1clear = false;
         bossFighting = false;
-        MonsterSpawner.time = 1000;
+        GameManager.instance_.time = 1000;
         Cheat.coroutinePlay();
     }
 

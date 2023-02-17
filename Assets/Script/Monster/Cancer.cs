@@ -5,20 +5,36 @@ using UnityEngine;
 public class Cancer : Monster_Parents
 {
     public GameObject cancerAttackArea;
+    public CircleCollider2D cancerAttackArea_cancerCollider;
 
-    [SerializeField]
-    private float sizeUpSpeed;
+    [SerializeField] float sizeUpSpeed;
+
+    [SerializeField] float elapsedTime;
+    [SerializeField] float blinkTime;
 
     void Update()
     {
         monster_Move();
+        Cancer_AttackArea_SizrUp();
         Cancer_Attack();
+    }
+
+    void Cancer_AttackArea_SizrUp()
+    {
+        float scale = cancerAttackArea.transform.localScale.x + Time.deltaTime * sizeUpSpeed;
+        cancerAttackArea.transform.localScale = new Vector2(scale, scale);
     }
 
     void Cancer_Attack()
     {
-        float scale = cancerAttackArea.transform.localScale.x + Time.deltaTime * sizeUpSpeed;
-        cancerAttackArea.transform.localScale = new Vector2(scale, scale);
+        elapsedTime += Time.deltaTime;
+
+        if(elapsedTime >= blinkTime)
+        {
+            cancerAttackArea_cancerCollider.enabled = false;
+            cancerAttackArea_cancerCollider.enabled = true;
+            elapsedTime = 0;
+        }
     }
 
     protected override void Die()

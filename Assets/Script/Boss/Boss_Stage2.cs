@@ -1,9 +1,10 @@
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class Boss_Stage1 : MonoBehaviour
+public class Boss_Stage2 : MonoBehaviour
 {
     public GameObject bossBullet;
     public GameObject bossBullet_;
@@ -17,7 +18,7 @@ public class Boss_Stage1 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        patternLength = 4;
+        patternLength = 6;
         isPatternWorking = false;
         workingPattern = -1;
     }
@@ -37,20 +38,28 @@ public class Boss_Stage1 : MonoBehaviour
                         break;
                     case 0:
                         StartCoroutine(triplCircleShot());
-                        StartCoroutine(patternDelay(3f));
+                        StartCoroutine(patternDelay(2f));
                         break;
                     case 1:
                         StartCoroutine(quintupleFrontShot());
-                        StartCoroutine(patternDelay(3f));
+                        StartCoroutine(patternDelay(2f));
                         break;
                     case 2:
                         StartCoroutine(zigzagShot());
-                        StartCoroutine(patternDelay(3f));
+                        StartCoroutine(patternDelay(2f));
+                        break;
+                    case 3:
+                        StartCoroutine(tornadoShot());
+                        StartCoroutine(patternDelay(2f));
+                        break;
+                    case 4:
+                        StartCoroutine(randomCircleShot());
+                        StartCoroutine(patternDelay(2f));
                         break;
 
-
-                    case 3:
-                        int a = Random.Range(0, 3);
+                        
+                    case 5:
+                        int a = Random.Range(0, 4);
                         switch(a)
                         {
                             case 0:
@@ -63,6 +72,10 @@ public class Boss_Stage1 : MonoBehaviour
                                 break;
                             case 2:
                                 spawn_Virus();
+                                StartCoroutine(patternDelay(3f));
+                                break;
+                            case 3:
+                                spawn_Cancer();
                                 StartCoroutine(patternDelay(3f));
                                 break;
                         }
@@ -133,7 +146,45 @@ public class Boss_Stage1 : MonoBehaviour
         }
     }
 
-     void spawn_Bacteria()
+    IEnumerator tornadoShot()
+    {
+        isPatternWorking = true;
+        int a = 0;
+        int plusAmount = 30;
+        for (int j = 0; j < 3; j++)
+        {
+            for (int i = 0; i < 12; i++)
+            {
+                Instantiate(bossBullet, transform.position, Quaternion.Euler(0, 0, a));
+                yield return new WaitForSeconds(0.05f);
+                a += plusAmount;
+            }
+            plusAmount *= -1;
+            yield return new WaitForSeconds(0.3f);
+        }
+    }
+
+
+    IEnumerator randomCircleShot()
+    {
+        isPatternWorking = true;
+        int a = 0;
+        int plusAmount = 30;
+        for (int j = 0; j < 2; j++)
+        {
+            for (int i = 0; i < 24; i++)
+            {
+                Instantiate(bossBullet_, transform.position, Quaternion.Euler(0, 0, a));
+                a += plusAmount;
+            }
+            yield return new WaitForSeconds(0.15f);
+        }
+    }
+
+
+
+
+    void spawn_Bacteria()
     {
         isPatternWorking = true;
         for (int i = 0; i < 2; i++)
@@ -154,9 +205,18 @@ public class Boss_Stage1 : MonoBehaviour
     void spawn_Virus()
     {
         isPatternWorking = true;
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 1; i++)
         {
             Instantiate(monsterPrefabs[2], new Vector2(transform.position.x + Random.Range(-2.5f, 2.5f), transform.position.y), Quaternion.identity);
+        }
+    }
+
+    void spawn_Cancer()
+    {
+        isPatternWorking = true;
+        for (int i = 0; i < 1; i++)
+        {
+            Instantiate(monsterPrefabs[3], new Vector2(transform.position.x + Random.Range(-2.5f, 2.5f), transform.position.y + 1f), Quaternion.identity);
         }
     }
 
@@ -165,7 +225,6 @@ public class Boss_Stage1 : MonoBehaviour
         yield return new WaitForSecondsRealtime(newdelaytime);
         isPatternWorking = false;
         workingPattern = Random.Range(0, patternLength);
-        
     }
 
 }

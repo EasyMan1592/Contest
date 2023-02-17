@@ -15,6 +15,12 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if(GameManager.instance_.isGameover)
+        {
+            return;
+        }
+
+
         if (!GameManager.instance_.stage1clear)
         {
             Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
