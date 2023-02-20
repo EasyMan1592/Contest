@@ -239,7 +239,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monster_Score: 300
-  monster_HP: 50
+  monster_HP: 75
   monster_Speed: 0.75
   monster_Pain: 15
   monster_contactDamage: 15

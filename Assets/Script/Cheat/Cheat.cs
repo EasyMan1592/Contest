@@ -158,6 +158,7 @@ public class Cheat : MonoBehaviour
                 f3Display.SetActive(false);
                 f7Display.SetActive(false);
                 f8Display.SetActive(false);
+                GameManager.instance_.pause = true;
                 GameManager.instance_.pause = false;
                 CoroutinePlay.instance.coroutinePlay();
                 Time.timeScale = 1;
@@ -180,6 +181,7 @@ public class Cheat : MonoBehaviour
         f3Display.SetActive(false);
         f7Display.SetActive(false);
         f8Display.SetActive(false);
+        GameManager.instance_.pause = true;
         GameManager.instance_.pause = false;
         CoroutinePlay.instance.coroutinePlay();
         Time.timeScale = 1;

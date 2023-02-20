@@ -15,7 +15,7 @@ public class Germs_Bullet : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Destroy(gameObject, 1f);
+        Destroy(gameObject, 3f);
 
         player = GameObject.FindWithTag("Player");
         playerTransform = player.transform;

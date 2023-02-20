@@ -102,7 +102,7 @@ public class StageManager : MonoBehaviour
         float fadeCount = 0;
         while (fadeCount <= 1f)
         {
-            fadeCount += 0.001f;
+            fadeCount += 0.01f;
             yield return null;
             black.color = new Color(black.color.r, black.color.g, black.color.b, fadeCount);
         }
@@ -114,7 +114,7 @@ public class StageManager : MonoBehaviour
         float fadeCount = 1;
         while (fadeCount >= 0f)
         {
-            fadeCount -= 0.001f;
+            fadeCount -= 0.01f;
             yield return null;
             black.color = new Color(black.color.r, black.color.g, black.color.b, fadeCount);
         }
@@ -125,14 +125,14 @@ public class StageManager : MonoBehaviour
         float fadeCount = 0;
         while (fadeCount <= 1f)
         {
-            fadeCount += 0.001f;
+            fadeCount += 0.007f;
             yield return null;
             black.color = new Color(black.color.r, black.color.g, black.color.b, fadeCount);
         }
         fadeCount = 1;
         while (fadeCount >= 0f)
         {
-            fadeCount -= 0.001f;
+            fadeCount -= 0.007f;
             yield return null;
             black.color = new Color(black.color.r, black.color.g, black.color.b, fadeCount);
         }
@@ -143,7 +143,7 @@ public class StageManager : MonoBehaviour
         float fadeCount = 1;
         while (fadeCount >= 0f)
         {
-            fadeCount -= 0.001f;
+            fadeCount -= 0.01f;
             yield return null;
             bigStageText.color = new Color(bigStageText.color.r, bigStageText.color.g, bigStageText.color.b, fadeCount);
         }

@@ -10,11 +10,11 @@ public class playergo : MonoBehaviour
         go = false;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (go)
         {
-            transform.position = Vector3.MoveTowards(transform.position, new Vector2(transform.position.x, 10), 0.01f);
+            transform.position = Vector3.MoveTowards(transform.position, new Vector2(transform.position.x, 10), 0.08f);
         }
     }
 }

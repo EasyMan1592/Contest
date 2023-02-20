@@ -7,6 +7,30 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance = null;
+
+    void Awake()
+    {
+        if (instance != null)
+            Destroy(gameObject);
+        else
+        {
+            instance = this;
+        }
+
+    }
+
+    public static GameManager instance_
+    {
+        get
+        {
+            if (null == instance)
+            {
+                return null;
+            }
+            return instance;
+        }
+    }
+
     public GameObject player_Obj;
     public Player player;
     public SpriteRenderer player_SPR;
@@ -23,27 +47,7 @@ public class GameManager : MonoBehaviour
     public GameObject GameoverDisplay;
     public Text GameoverText;
 
-    void Awake()
-    {
-        if (instance != null)
-            Destroy(gameObject);
-        else
-        {
-            instance = this;
-        }
-    }
-
-    public static GameManager instance_
-    {
-        get
-        {
-            if (null == instance)
-            {
-                return null;
-            }
-            return instance;
-        }
-    }
+    public Sort sort;
 
     public int score = 0;
     public bool isGameover = false;
@@ -85,7 +89,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-
         time = 0;
         canGetDamage = true;
         pause = false;
@@ -97,6 +100,7 @@ public class GameManager : MonoBehaviour
         painGauge = 10;
 
         updateUI();
+        sort.enabled = true;
     }
 
     void Update()

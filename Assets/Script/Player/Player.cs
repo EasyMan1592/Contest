@@ -13,18 +13,18 @@ public class Player : MonoBehaviour
         playerRigid = GetComponent<Rigidbody2D>();
     }
 
-    void Update()
+    private void FixedUpdate()
     {
-        if(GameManager.instance_.isGameover)
+        if (GameManager.instance_.isGameover)
         {
             return;
         }
 
 
-        if(GameManager.instance_.stage1clear || GameManager.instance_.stage2clear)
+        if (GameManager.instance_.stage1clear || GameManager.instance_.stage2clear)
         {
             cutSceneMove();
-         
+
         }
         else
         {
@@ -37,8 +37,6 @@ public class Player : MonoBehaviour
 
             moveControl();
         }
-
-        
     }
 
     void moveControl()
@@ -55,7 +53,7 @@ public class Player : MonoBehaviour
         if (GameManager.instance_.stage1clear)
         {
             playerRigid.velocity = Vector3.zero;
-            transform.position = Vector3.MoveTowards(transform.position, new Vector2(transform.position.x, 10), 0.01f);
+            transform.position = Vector3.MoveTowards(transform.position, new Vector2(transform.position.x, 10), 0.07f);
         }
     }
 

@@ -17,7 +17,7 @@ public class BossBullet_ : MonoBehaviour
         {
             key = -1;
         }
-        Destroy(gameObject, 2f);
+        Destroy(gameObject, 5f);
     }
 
     // Update is called once per frame

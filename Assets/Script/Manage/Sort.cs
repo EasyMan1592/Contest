@@ -9,7 +9,7 @@ public class Sort : MonoBehaviour
 {
     public PlayerData playerData1 = new PlayerData();
 
-    private void Start()
+    private void Awake()
     {
         LoadPlayerNicknameDataToJson();
         int cnt = 0;
@@ -38,9 +38,9 @@ public class Sort : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        if ((playerData1.Nickname.Count < 5) || (GameManager.instance_.BestScore > playerData1.Score[4]))
+        if ((playerData1.Score.Count < 5) || (GameManager.instance_.BestScore > playerData1.Score[4]))
         {
             GameManager.instance_.inTop5 = true;
         }

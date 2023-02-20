@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class BonusScoreManager : MonoBehaviour
 {
     public static BonusScoreManager instance;
-    
+
 
     private void Awake()
     {
@@ -24,6 +24,8 @@ public class BonusScoreManager : MonoBehaviour
         StartCoroutine(BounsScoreCal());
     }
 
+
+
     IEnumerator BounsScoreCal()
     {
         BounsDisplay.SetActive(true);
@@ -36,5 +38,8 @@ public class BonusScoreManager : MonoBehaviour
         GameManager.instance_.canGetDamage = true;
         BounsDisplay.SetActive(false);
         GameManager.instance_.scoreUp(bonusScore, transform);
+
+
     }
+
 }

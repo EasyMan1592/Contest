@@ -6,8 +6,8 @@ public class cursor : MonoBehaviour
 {
     public GameObject injector;
 
-    public Transform[] injectorPos;   // 0:스타트   1:스코어   2:탈출
-    public GameObject[] button_colls; // 0:스타트   1:스코어   2:탈출
+    public Transform[] injectorPos;   // 0:스타트   1:스코어   2:탈출    3:가이드
+    public GameObject[] button_colls; // 0:스타트   1:스코어   2:탈출    3:가이드
 
     Vector2 MousePosition;
     Camera cam;
@@ -45,6 +45,11 @@ public class cursor : MonoBehaviour
         if (collision.gameObject == button_colls[2])
         {
             injector.transform.position = injectorPos[2].position;
+        }
+
+        if (collision.gameObject == button_colls[3])
+        {
+            injector.transform.position = injectorPos[3].position;
         }
     }
 

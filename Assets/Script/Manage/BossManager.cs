@@ -52,7 +52,8 @@ public class BossManager : MonoBehaviour
         }
     }
 
-    void Update()
+    
+    void FixedUpdate()
     {
         bossUIUpdate();
         if ((int)GameManager.instance_.time == bossSpawnTime[GameManager.instance_.stage])
@@ -73,7 +74,7 @@ public class BossManager : MonoBehaviour
 
     void spawnBoss(GameObject newboss)
     {
-        newboss.transform.position = Vector3.MoveTowards(newboss.transform.position, bossTransform.position, 0.01f);
+        newboss.transform.position = Vector3.MoveTowards(newboss.transform.position, bossTransform.position, 0.1f);
         if(j == 0) StartCoroutine(bossActive(newboss));
     }
 
@@ -108,10 +109,17 @@ public class BossManager : MonoBehaviour
         StartCoroutine(GoToStage2());
     }
 
+    int u = 0;
+
     IEnumerator clearCutScene_Stage1()
     {
         yield return new WaitForSecondsRealtime(2f);
-        BonusScoreManager.instance.BounsScoreCal_();
+        if (u == 0)
+        {
+            BonusScoreManager.instance.BounsScoreCal_();
+            u++;
+            StartCoroutine(ret());
+        }
         yield return new WaitForSecondsRealtime(5.1f);
         GameManager.instance_.stage1clear = true;
         yield return new WaitForSecondsRealtime(1f);
@@ -132,21 +140,26 @@ public class BossManager : MonoBehaviour
     IEnumerator clearCutScene_Stage2()
     {
         yield return new WaitForSecondsRealtime(2f);
-        BonusScoreManager.instance.BounsScoreCal_();
+        if (u == 0)
+        {
+            BonusScoreManager.instance.BounsScoreCal_();
+            u++;
+            StartCoroutine(ret());
+
+        }
         yield return new WaitForSecondsRealtime(5.1f);
         GameManager.instance_.stage2clear = true;
         GameManager.instance_.GameoverDisplay.SetActive(true);
-        GameManager.instance_.GameoverText.text = "Clear";
         GameManager.instance_.isGameover = true;
+        GameManager.instance_.GameoverText.text = "Clear";
         GameManager.instance_.time = 10000;
     }
 
-
-
-
-
-
-
+    IEnumerator ret()
+    {
+        yield return new WaitForSecondsRealtime(1f);
+        u = 0;
+    }
 
     IEnumerator GoToStage2()
     {
@@ -164,6 +177,8 @@ public class BossManager : MonoBehaviour
         GameManager.instance_.painGauge = 30;
         GameManager.instance_.updateUI();
         CoroutinePlay.instance.coroutinePlay();
+
+        
     }
 
 
