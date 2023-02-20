@@ -2,11 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SocialPlatforms.Impl;
-using System.Linq.Expressions;
-using System;
-using JetBrains.Annotations;
-using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,7 +11,8 @@ public class GameManager : MonoBehaviour
     public Player player;
     public SpriteRenderer player_SPR;
 
-    public GameObject getScoreText;
+    public GameObject bulletPrefab;
+    public Sprite[] BulletSprite;
 
     public bool pause;
 
@@ -24,6 +21,7 @@ public class GameManager : MonoBehaviour
     public bool stage2clear;
 
     public GameObject GameoverDisplay;
+    public Text GameoverText;
 
     void Awake()
     {
@@ -53,7 +51,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] float invinceTime = 2f;
     public float playerHp = 100;
     public float painGauge = 0;
-    [SerializeField] GameObject shieldObj;
+    public GameObject shieldObj;
+    public GameObject boostObj;
     public bool canGetDamage = true;
 
     public int FireGrade;
@@ -76,23 +75,35 @@ public class GameManager : MonoBehaviour
     {
         if (!isGameover)
         {
-            itemUsePrequancy++;
+            if (!stage1clear || !stage2clear)
+            {
+                itemUsePrequancy++;
+            }
         }
     }
+    
 
     private void Start()
     {
-        updateUI();
+
+        time = 0;
         canGetDamage = true;
         pause = false;
         cutSceneRunning = false;
         inTop5 = false;
+        isGameover = false;
+        Next = 0;
+        playerHp = 100;
+        painGauge = 10;
+
+        updateUI();
     }
 
     void Update()
     {
         if (player == null)
         {
+
             Time.timeScale = 0;
         }
 
@@ -105,7 +116,10 @@ public class GameManager : MonoBehaviour
     {
         if (!isGameover)
         {
-            time += Time.deltaTime;
+            if (!stage1clear || !stage2clear)
+            {
+                time += Time.deltaTime;
+            }
         }
     }
 
@@ -113,17 +127,19 @@ public class GameManager : MonoBehaviour
 
     public void updateUI()
     {
-
         if (!isGameover)
         {
-            scoreText.text = score.ToString("D5");
-            hpBar.value = playerHp;
-            painBar.value = painGauge;
-            hpText.text = playerHp + "%";
-            painText.text = painGauge + "%";
-            if (BossManager.instance_.bossFighting)
+            if (!stage1clear || !stage2clear)
             {
-                BossManager.instance_.bossUIUpdate();
+                scoreText.text = score.ToString("D5");
+                hpBar.value = playerHp;
+                painBar.value = painGauge;
+                hpText.text = playerHp + "%";
+                painText.text = painGauge + "%";
+                if (BossManager.instance_.bossFighting)
+                {
+                    BossManager.instance_.bossUIUpdate();
+                }
             }
         }
     }
@@ -132,9 +148,13 @@ public class GameManager : MonoBehaviour
     {
         if (!isGameover)
         {
-            score += newscore;
-            //GameObject text = Instantiate(getScoreText, hitPoint.position, Quaternion.identity, GameObject.Find("Canvas").transform);
-            updateUI();
+            if (!stage1clear || !stage2clear)
+            {
+                score += newscore;
+                //GameObject text = Instantiate(getScoreText, hitPoint.position, Quaternion.identity, GameObject.Find("Canvas").transform);
+                updateUI();
+                scoreTextBlink_();
+            }
         }
     }
 
@@ -142,21 +162,25 @@ public class GameManager : MonoBehaviour
     {
         if (!isGameover)
         {
-            if (canGetDamage)
+            if (!stage1clear || !stage2clear)
             {
-                playerHp -= newdamage;
-                contactTheMonster(invinceTime);
-                if (playerHp <= 0)
+                if (canGetDamage)
                 {
-                    playerHp = 0;
+                    playerHp -= newdamage;
+                    contactTheMonster(invinceTime);
+                    if (playerHp <= 0)
+                    {
+                        playerHp = 0;
+                    }
+                    updateUI();
+                    return true;
                 }
-                updateUI();
-                return true;
+                else
+                {
+                    return false;
+                }
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
         return false;
     }
@@ -165,13 +189,16 @@ public class GameManager : MonoBehaviour
     {
         if (!isGameover)
         {
-            playerHp += newhealamount;
-            if (playerHp >= 100)
+            if (!stage1clear || !stage2clear)
             {
-                playerHp = 100;
-            }
+                playerHp += newhealamount;
+                if (playerHp >= 100)
+                {
+                    playerHp = 100;
+                }
 
-            updateUI();
+                updateUI();
+            }
         }
     }
 
@@ -186,12 +213,15 @@ public class GameManager : MonoBehaviour
     {
         if (!isGameover)
         {
-            painGauge += newpain;
-            if (painGauge >= 100)
+            if (!stage1clear || !stage2clear)
             {
-                painGauge = 100;
+                painGauge += newpain;
+                if (painGauge >= 100)
+                {
+                    painGauge = 100;
+                }
+                updateUI();
             }
-            updateUI();
         }
     }
 
@@ -199,13 +229,16 @@ public class GameManager : MonoBehaviour
     {
         if (!isGameover)
         {
-            painGauge -= newhealamount;
-
-            if (painGauge <= 0)
+            if (!stage1clear || !stage2clear)
             {
-                painGauge = 0;
+                painGauge -= newhealamount;
+
+                if (painGauge <= 0)
+                {
+                    painGauge = 0;
+                }
+                updateUI();
             }
-            updateUI();
         }
     }
 
@@ -218,13 +251,19 @@ public class GameManager : MonoBehaviour
 
     public void fireUpgrade()
     {
-        if (FireGrade >= 5)
+        if (!isGameover)
         {
-            FireGrade = 5;
-        }
-        else
-        {
-            FireGrade++;
+            if (!stage1clear || !stage2clear)
+            {
+                if (FireGrade >= 5)
+                {
+                    FireGrade = 5;
+                }
+                else
+                {
+                    FireGrade++;
+                }
+            }
         }
     }
 
@@ -238,12 +277,15 @@ public class GameManager : MonoBehaviour
     {
         if (!isGameover)
         {
-            IEnumerator shield_ = shield(newshieldtime);
-            IEnumerator shieldBlink_ = shieldBlink(newshieldtime);
-            StopCoroutine(shield_);
-            StartCoroutine(shield_);
-            StopCoroutine(shieldBlink_);
-            StartCoroutine(shieldBlink_);
+            if (!stage1clear || !stage2clear)
+            {
+                IEnumerator shield_ = shield(newshieldtime);
+                IEnumerator shieldBlink_ = shieldBlink(newshieldtime);
+                StopCoroutine(shield_);
+                StartCoroutine(shield(newshieldtime));
+                StopCoroutine(shieldBlink_);
+                StartCoroutine(shieldBlink(newshieldtime));
+            }
         }
     }
 
@@ -251,14 +293,83 @@ public class GameManager : MonoBehaviour
     {
         if (!isGameover)
         {
-            IEnumerator invince_ = invince(newinvincetime);
-            IEnumerator playerBlink = objectBlink(player_SPR, newinvincetime);
-            StopCoroutine(invince_);
-            StartCoroutine(invince_);
-            StopCoroutine(playerBlink);
-            StartCoroutine(playerBlink);
+            if (!stage1clear || !stage2clear)
+            {
+                IEnumerator invince_ = invince(newinvincetime);
+                IEnumerator playerBlink = objectBlink(player_SPR, newinvincetime);
+                StopCoroutine(invince_);
+                StartCoroutine(invince(newinvincetime));
+                StopCoroutine(playerBlink);
+                StartCoroutine(objectBlink(player_SPR, newinvincetime));
+            }
         }
     }
+
+    public void DamageUp_(float newdamageuptime_)
+    {
+        if (!isGameover)
+        {
+            if (!stage1clear || !stage2clear)
+            {
+                IEnumerator DamageUp__ = DamageUp(newdamageuptime_);
+                StopCoroutine(DamageUp__);
+                StartCoroutine(DamageUp(newdamageuptime_));
+            }
+        }
+    }
+
+    IEnumerator DamageUp(float newdamageuptime_)
+    {
+        bulletPrefab.GetComponent<Bullet>().bulletDamage = 2;
+        bulletPrefab.GetComponent<SpriteRenderer>().sprite = BulletSprite[1];
+        yield return new WaitForSecondsRealtime(newdamageuptime_);
+        bulletPrefab.GetComponent<Bullet>().bulletDamage = 1;
+        bulletPrefab.GetComponent<SpriteRenderer>().sprite = BulletSprite[0];
+    }
+
+
+    public void Boost_(float newboosttime_)
+    {
+        if (!isGameover)
+        {
+            if (!stage1clear || !stage2clear)
+            {
+                IEnumerator Boost__ = Boost(newboosttime_);
+                IEnumerator BoostBlink__ = boostBlink(newboosttime_);
+                StopCoroutine(Boost__);
+                StartCoroutine(Boost(newboosttime_));
+                StopCoroutine(BoostBlink__);
+                StartCoroutine(boostBlink(newboosttime_));
+            }
+        }
+    }
+
+    IEnumerator Boost(float newboosttime_)
+    {
+        Fire.instance.fireTime = 0.06f;
+        boostObj.SetActive(true);
+        yield return new WaitForSecondsRealtime(newboosttime_);
+        Fire.instance.fireTime = 0.1f;
+        boostObj.SetActive(false);
+    }
+
+    void scoreTextBlink_()
+    {
+        StartCoroutine(scoreTextBlink());
+    }
+
+    IEnumerator scoreTextBlink()
+    {
+        scoreText.color = new Color(scoreText.color.r, scoreText.color.g, scoreText.color.b, 0);
+        yield return new WaitForSecondsRealtime(0.1f);
+        scoreText.color = new Color(scoreText.color.r, scoreText.color.g, scoreText.color.b, 255);
+        yield return new WaitForSecondsRealtime(0.1f);
+        scoreText.color = new Color(scoreText.color.r, scoreText.color.g, scoreText.color.b, 0);
+        yield return new WaitForSecondsRealtime(0.1f);
+        scoreText.color = new Color(scoreText.color.r, scoreText.color.g, scoreText.color.b, 255);
+        yield return new WaitForSecondsRealtime(0.1f);
+    }
+
 
     IEnumerator invince(float newinvincetime_)
     {
@@ -281,6 +392,13 @@ public class GameManager : MonoBehaviour
         float shieldOnTime = newshieldtime__ - 0.8f;
         yield return new WaitForSecondsRealtime(shieldOnTime);
         StartCoroutine(objectBlink(shieldObj.GetComponent<Renderer>(), 0.8f));
+    }
+
+    IEnumerator boostBlink(float newshieldtime__)
+    {
+        float shieldOnTime = newshieldtime__ - 0.8f;
+        yield return new WaitForSecondsRealtime(shieldOnTime);
+        StartCoroutine(objectBlink(boostObj.GetComponent<Renderer>(), 0.8f));
     }
 
     public void blink(Renderer newgameobject, float newblinktime)
@@ -314,7 +432,7 @@ public class GameManager : MonoBehaviour
             isGameover = true;
             pause = true;
             GameoverDisplay.SetActive(true);
-            
+
             GameoverManager.instance.gameoverDisplaySet_();
         }
     }

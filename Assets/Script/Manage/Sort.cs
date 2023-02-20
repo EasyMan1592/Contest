@@ -1,8 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
-using Unity.Collections.LowLevel.Unsafe;
-using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
@@ -39,14 +36,16 @@ public class Sort : MonoBehaviour
                 }
             }
         }
+    }
 
-        if (playerData1.Nickname.Count < 5 || GameManager.instance_.BestScore > playerData1.Score[4])
+    private void Update()
+    {
+        if ((playerData1.Nickname.Count < 5) || (GameManager.instance_.BestScore > playerData1.Score[4]))
         {
             GameManager.instance_.inTop5 = true;
         }
         else
         {
-            
             GameManager.instance_.inTop5 = false;
         }
     }

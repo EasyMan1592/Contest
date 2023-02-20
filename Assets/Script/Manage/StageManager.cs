@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using JetBrains.Annotations;
+
 
 public class StageManager : MonoBehaviour
 {
@@ -16,7 +16,12 @@ public class StageManager : MonoBehaviour
 
     public GameObject black_Obj;
     public Image black;
-    public GameObject[] TitleObjects;
+
+    public GameObject Stage2_BG;
+    public GameObject BG1;
+    public GameObject BG2;
+
+    public Material[] Walls;
 
 
     private void Start()
@@ -40,6 +45,12 @@ public class StageManager : MonoBehaviour
         smallStageText.text = "Stage 1";
         bigStageText_Obj.SetActive(true);
         bigStageText.text = "Stage 1";
+
+        BossManager.instance_.j = 0;
+        Stage2_BG.SetActive(false);
+        BG1.GetComponent<MeshRenderer>().material = Walls[0];
+        BG2.GetComponent<MeshRenderer>().material = Walls[1];
+        GameManager.instance_.updateUI();
         StartCoroutine(BigStageTextFadeOut());
     }
 
@@ -55,12 +66,33 @@ public class StageManager : MonoBehaviour
         smallStageText.text = "Stage 2";
         bigStageText_Obj.SetActive(true);
         bigStageText.text = "Stage 2";
+
+        BossManager.instance_.j = 0;
+        Stage2_BG.SetActive(true);
+        BG1.GetComponent<MeshRenderer>().material = Walls[2];
+        BG2.GetComponent<MeshRenderer>().material = Walls[3];
+        GameManager.instance_.updateUI();
         StartCoroutine(BigStageTextFadeOut());
     }
 
     public void BlackOut_()
     {
         StartCoroutine(BlackOut());
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene("Main");
+    }
+
+    public void GoToScoreBoard()
+    {
+        SceneManager.LoadScene("ScoreBoard");
+    }
+
+    public void GoToTitle()
+    {
+        SceneManager.LoadScene("Title");
     }
 
     IEnumerator GameStart_()
@@ -74,7 +106,7 @@ public class StageManager : MonoBehaviour
             yield return null;
             black.color = new Color(black.color.r, black.color.g, black.color.b, fadeCount);
         }
-        SceneManager.LoadScene("Stage1");
+        SceneManager.LoadScene("Main");
     }
 
     IEnumerator Stage1in()
@@ -105,8 +137,6 @@ public class StageManager : MonoBehaviour
             black.color = new Color(black.color.r, black.color.g, black.color.b, fadeCount);
         }
     }
-
-
 
     IEnumerator BigStageTextFadeOut()
     {

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BloodSpawner : MonoBehaviour
 {
+    public static BloodSpawner instance;
     public GameObject[] bloodPrefabs; // 0: ÀûÇ÷±¸, 1: ¹éÇ÷±¸
 
     [SerializeField] float spawnMinTime;
@@ -16,7 +17,7 @@ public class BloodSpawner : MonoBehaviour
 
     private void Awake()
     {
-        Cheat.OnAllCouroutinePlay += bloodSpawn_Play;
+        instance = this;
     }
 
     void Start()
@@ -47,15 +48,18 @@ public class BloodSpawner : MonoBehaviour
     {
         if (!GameManager.instance_.pause)
         {
-            if(!isCoroutineRunning)
+            if (!GameManager.instance_.stage2clear)
             {
-                isCoroutineRunning = true;
-                float waitTime = Random.Range(spawnMinTime, spawnMaxTime);
-                yield return new WaitForSecondsRealtime(waitTime);
-                int spawnMonsterPrefabNumber = Random.Range(0, bloodPrefabs.Length);
-                Instantiate(bloodPrefabs[spawnMonsterPrefabNumber], new Vector2(spawnPos_.position.x + Random.Range(-2.5f, 2.5f), spawnPos_.position.y), Quaternion.identity);
-                isCoroutineRunning = false;
-                StartCoroutine(bloodSpawn());
+                if (!isCoroutineRunning)
+                {
+                    isCoroutineRunning = true;
+                    float waitTime = Random.Range(spawnMinTime, spawnMaxTime);
+                    yield return new WaitForSecondsRealtime(waitTime);
+                    int spawnMonsterPrefabNumber = Random.Range(0, bloodPrefabs.Length);
+                    Instantiate(bloodPrefabs[spawnMonsterPrefabNumber], new Vector2(spawnPos_.position.x + Random.Range(-2.5f, 2.5f), spawnPos_.position.y), Quaternion.identity);
+                    isCoroutineRunning = false;
+                    StartCoroutine(bloodSpawn());
+                }
             }
         }
     }

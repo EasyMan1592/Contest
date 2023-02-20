@@ -1,15 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Cheat : MonoBehaviour
 {
     public static Cheat instance;
-    
-    public delegate void AllCouroutinePlay();
-    public static event AllCouroutinePlay OnAllCouroutinePlay;
 
     public SpriteRenderer playerRenderer;
 
@@ -37,12 +33,7 @@ public class Cheat : MonoBehaviour
     public bool isF8DisplayOn;
 
     public bool isF4On;
-
-    public static void coroutinePlay()
-    {
-        OnAllCouroutinePlay();
-    }
-
+   
 
     private void Start()
     {
@@ -168,7 +159,7 @@ public class Cheat : MonoBehaviour
                 f7Display.SetActive(false);
                 f8Display.SetActive(false);
                 GameManager.instance_.pause = false;
-                OnAllCouroutinePlay();
+                CoroutinePlay.instance.coroutinePlay();
                 Time.timeScale = 1;
                 isF1DisplayOn = false;
                 isF2DisplayOn = false;
@@ -184,14 +175,13 @@ public class Cheat : MonoBehaviour
 
     public void f2Esc()
     {
-        
         f1Display.SetActive(false);
         f2Display.SetActive(false);
         f3Display.SetActive(false);
         f7Display.SetActive(false);
         f8Display.SetActive(false);
         GameManager.instance_.pause = false;
-        OnAllCouroutinePlay();
+        CoroutinePlay.instance.coroutinePlay();
         Time.timeScale = 1;
         isF1DisplayOn = false;
         isF2DisplayOn = false;

@@ -8,6 +8,7 @@ public class FireUpgrade : Item, IItem
     {
         GameManager.instance_.fireUpgrade();
         GameManager.instance_.itemUse();
+        GameManager.instance_.scoreUp(100, transform);
         Destroy(gameObject);
     }
 }

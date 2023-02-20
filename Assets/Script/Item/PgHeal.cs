@@ -8,6 +8,7 @@ public class PgHeal : Item, IItem
     {
         GameManager.instance_.healPain(10f);
         GameManager.instance_.itemUse();
+        GameManager.instance_.scoreUp(100, transform);
         Destroy(gameObject);
     }
 }

@@ -8,6 +8,7 @@ public class HpHeal : Item, IItem
     {
         GameManager.instance_.playerHeal(15f);
         GameManager.instance_.itemUse();
+        GameManager.instance_.scoreUp(100, transform);
         Destroy(gameObject);
     }
 }

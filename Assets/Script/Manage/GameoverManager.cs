@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using System.Linq.Expressions;
 
 public class GameoverManager : MonoBehaviour
 {
@@ -14,11 +12,7 @@ public class GameoverManager : MonoBehaviour
         instance = this;
     }
 
-    public Text playScoreText;
-    public Text itemScoreText;
-    public Text HPScoreText;
-    public Text PGScoreText;
-    public Text TotalScoreText;
+    public Text ScoreText;
     public GameObject NextText;
 
     public GameObject[] Scenes;
@@ -32,12 +26,7 @@ public class GameoverManager : MonoBehaviour
                 Scenes[0].SetActive(true);
                 gameoverDisplaySet_();
 
-
-                if (Input.anyKeyDown)
-                {
-                    GameManager.instance_.Next = 1;
-                }
-               
+                Invoke("acc", 3f);
             }
 
             if (GameManager.instance_.Next == 1)
@@ -56,8 +45,16 @@ public class GameoverManager : MonoBehaviour
             if (GameManager.instance_.Next == 2)
             {
                 Scenes[1].SetActive(false);
-                //Scenes[2].SetActive(true);
+                Scenes[2].SetActive(true);
             }
+        }
+    }
+
+    public void acc()
+    {
+        if (Input.anyKeyDown)
+        {
+            GameManager.instance_.Next = 1;
         }
     }
 
@@ -68,12 +65,8 @@ public class GameoverManager : MonoBehaviour
 
     IEnumerator gameoverDisplaySet()
     {
-        playScoreText.text = GameManager.instance_.score.ToString("");
-        itemScoreText.text = GameManager.instance_.itemUsePrequancy + " X 100";
-        HPScoreText.text = GameManager.instance_.playerHp + " X 10";
-        PGScoreText.text = 100 - GameManager.instance_.painGauge + " X 10";
-        TotalScoreText.text = (GameManager.instance_.score + GameManager.instance_.itemUsePrequancy * 100 + GameManager.instance_.playerHp * 10 + ((100 - GameManager.instance_.painGauge) * 10)).ToString("");
-        GameManager.instance_.BestScore = (int)(GameManager.instance_.score + GameManager.instance_.itemUsePrequancy * 100 + GameManager.instance_.playerHp * 10 + ((100 - GameManager.instance_.painGauge) * 10));
+        ScoreText.text = GameManager.instance_.score.ToString("D5");
+        GameManager.instance_.BestScore = GameManager.instance_.score;
         yield return new WaitForSecondsRealtime(3f);
         NextText.SetActive(true);
     }

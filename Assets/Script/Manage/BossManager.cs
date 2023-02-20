@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SocialPlatforms.Impl;
-using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
 
 public class BossManager : MonoBehaviour
 {
@@ -58,7 +57,7 @@ public class BossManager : MonoBehaviour
         bossUIUpdate();
         if ((int)GameManager.instance_.time == bossSpawnTime[GameManager.instance_.stage])
         {
-                bossFightStart();
+            bossFightStart();
         }
     }
 
@@ -67,9 +66,10 @@ public class BossManager : MonoBehaviour
         Boss.a = 0;
         bossFighting = true;
         spawnBoss(bosses_[GameManager.instance_.stage]);
+
     }
 
-    int j;
+    public int j;
 
     void spawnBoss(GameObject newboss)
     {
@@ -99,7 +99,7 @@ public class BossManager : MonoBehaviour
         }
         else if (GameManager.instance_.stage == 1)
         {
-            
+            StartCoroutine(clearCutScene_Stage2());
         }
     }
 
@@ -110,7 +110,9 @@ public class BossManager : MonoBehaviour
 
     IEnumerator clearCutScene_Stage1()
     {
-        yield return new WaitForSecondsRealtime(6f);
+        yield return new WaitForSecondsRealtime(2f);
+        BonusScoreManager.instance.BounsScoreCal_();
+        yield return new WaitForSecondsRealtime(5.1f);
         GameManager.instance_.stage1clear = true;
         yield return new WaitForSecondsRealtime(1f);
         StageManager.instance.black_Obj.SetActive(true);
@@ -123,8 +125,28 @@ public class BossManager : MonoBehaviour
         GameManager.instance_.stage1clear = false;
         bossFighting = false;
         GameManager.instance_.time = 1000;
-        Cheat.coroutinePlay();
+        GameManager.instance_.updateUI();
+        CoroutinePlay.instance.coroutinePlay();
     }
+    
+    IEnumerator clearCutScene_Stage2()
+    {
+        yield return new WaitForSecondsRealtime(2f);
+        BonusScoreManager.instance.BounsScoreCal_();
+        yield return new WaitForSecondsRealtime(5.1f);
+        GameManager.instance_.stage2clear = true;
+        GameManager.instance_.GameoverDisplay.SetActive(true);
+        GameManager.instance_.GameoverText.text = "Clear";
+        GameManager.instance_.isGameover = true;
+        GameManager.instance_.time = 10000;
+    }
+
+
+
+
+
+
+
 
     IEnumerator GoToStage2()
     {
@@ -138,7 +160,10 @@ public class BossManager : MonoBehaviour
         GameManager.instance_.stage1clear = false;
         bossFighting = false;
         GameManager.instance_.time = 1000;
-        Cheat.coroutinePlay();
+        GameManager.instance_.playerHp = 100;
+        GameManager.instance_.painGauge = 30;
+        GameManager.instance_.updateUI();
+        CoroutinePlay.instance.coroutinePlay();
     }
 
 

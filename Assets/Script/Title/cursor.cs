@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 public class cursor : MonoBehaviour
 {
@@ -11,11 +10,11 @@ public class cursor : MonoBehaviour
     public GameObject[] button_colls; // 0:스타트   1:스코어   2:탈출
 
     Vector2 MousePosition;
-    Camera camera;
+    Camera cam;
 
     void Start()
     {
-        camera = GameObject.Find("Main Camera").GetComponent<Camera>();
+        cam = GameObject.Find("Main Camera").GetComponent<Camera>();
     }
 
     void Update()

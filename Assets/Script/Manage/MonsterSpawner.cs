@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Threading;
 using UnityEngine;
 
 public class MonsterSpawner : MonoBehaviour
 {
+    public static MonsterSpawner instance;
 
     public GameObject[] monsterPrefabs; // 0: 박테리아, 1: 세균, 2: 바이러스, 3: 암
 
@@ -19,7 +18,7 @@ public class MonsterSpawner : MonoBehaviour
 
     private void Awake()
     {
-        Cheat.OnAllCouroutinePlay += monsterSpawn_Play;
+        instance = this;
     }
 
     void Start()
@@ -32,8 +31,6 @@ public class MonsterSpawner : MonoBehaviour
     public void Update()
     {
         monsterListRemove();
-
-        
     }
 
     void monsterListRemove()

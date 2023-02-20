@@ -1,21 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Fire : MonoBehaviour
 {
+    public static Fire instance;
+
     public GameObject bulletPrefab;
 
-    [SerializeField]
-    private float fireTime;
+    public float fireTime;
 
     private void Awake()
     {
-        Cheat.OnAllCouroutinePlay += fire_Play;
+        instance = this;
     }
 
-    void fire_Play()
+    public void fire_Play()
     {
         StartCoroutine(fire());
     }
@@ -24,7 +24,7 @@ public class Fire : MonoBehaviour
     {
         if (!GameManager.instance_.isGameover)
         {
-            if (!GameManager.instance_.stage1clear)
+            if (!GameManager.instance_.stage1clear || !GameManager.instance_.stage2clear)
             {
                 if (!GameManager.instance_.pause)
                 {
@@ -60,6 +60,7 @@ public class Fire : MonoBehaviour
                     StartCoroutine(fire());
                 }
             }
+
         }
     }
 }

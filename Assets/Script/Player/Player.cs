@@ -21,7 +21,12 @@ public class Player : MonoBehaviour
         }
 
 
-        if (!GameManager.instance_.stage1clear)
+        if(GameManager.instance_.stage1clear || GameManager.instance_.stage2clear)
+        {
+            cutSceneMove();
+         
+        }
+        else
         {
             Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
             if (pos.x < 0f) pos.x = 0f;
@@ -33,7 +38,7 @@ public class Player : MonoBehaviour
             moveControl();
         }
 
-        cutSceneMove();
+        
     }
 
     void moveControl()

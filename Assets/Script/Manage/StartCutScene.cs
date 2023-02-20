@@ -6,6 +6,7 @@ public class StartCutScene : MonoBehaviour
 {
     public static StartCutScene instance;
 
+
     void Start()
     {
         instance = this;
@@ -29,6 +30,6 @@ public class StartCutScene : MonoBehaviour
         StageManager.instance.black_Obj.SetActive(false);
         GameManager.instance_.stage1clear = false;
         GameManager.instance_.time = 0;
-        Cheat.coroutinePlay();
+        CoroutinePlay.instance.coroutinePlay();
     }
 }
