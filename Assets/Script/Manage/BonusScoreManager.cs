@@ -38,8 +38,6 @@ public class BonusScoreManager : MonoBehaviour
         GameManager.instance_.canGetDamage = true;
         BounsDisplay.SetActive(false);
         GameManager.instance_.scoreUp(bonusScore, transform);
-
-
     }
 
 }

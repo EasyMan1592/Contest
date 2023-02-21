@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Monster_Parents : MonoBehaviour
 {
@@ -9,10 +10,15 @@ public class Monster_Parents : MonoBehaviour
     public float monster_Speed;
     public float monster_Pain;
     public float monster_contactDamage;
+    public bool stop;
+
 
     protected virtual void monster_Move()
     {
-        transform.Translate(new Vector2(0, -1) * monster_Speed * Time.deltaTime);
+        if (!stop)
+        {
+            transform.Translate(new Vector2(0, -1) * monster_Speed * Time.deltaTime);
+        }
     }
 
     public void OnDamage(float damage)
@@ -28,10 +34,26 @@ public class Monster_Parents : MonoBehaviour
 
     protected virtual void Die()
     {
+        StartCoroutine(Blink());
+    }
+
+    IEnumerator Blink()
+    {
+        stop = true;
+        gameObject.GetComponent<CircleCollider2D>().enabled = false;
+        gameObject.GetComponent<SpriteRenderer>().color = Color.clear;
+        yield return new WaitForSecondsRealtime(0.1f);
+        gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+        yield return new WaitForSecondsRealtime(0.1f);
+        gameObject.GetComponent<SpriteRenderer>().color = Color.clear;
+        yield return new WaitForSecondsRealtime(0.1f);
+        gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+        yield return new WaitForSecondsRealtime(0.1f);
         Destroy(gameObject);
-        // 처치 시 스코어 증가
         GameManager.instance_.scoreUp(monster_Score, transform);
     }
+
+
 
     public void Die_()
     {

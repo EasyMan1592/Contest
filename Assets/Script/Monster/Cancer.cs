@@ -14,9 +14,12 @@ public class Cancer : Monster_Parents
 
     void Update()
     {
-        monster_Move();
-        Cancer_AttackArea_SizrUp();
-        Cancer_Attack();
+        if (!stop)
+        {
+            monster_Move();
+            Cancer_AttackArea_SizrUp();
+            Cancer_Attack();
+        }
     }
 
     void Cancer_AttackArea_SizrUp()

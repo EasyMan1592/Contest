@@ -33,28 +33,34 @@ public class Germs : Monster_Parents
         StartCoroutine(fire_Delay());
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        if (!dash)
+        if (!stop)
         {
-            Grems_Move();
-            dir = playerTransform.position - transform.position;
-        }
-        else
-        {
-            transform.position += dir * dashForce * Time.deltaTime;
+            if (!dash)
+            {
+                Grems_Move();
+                dir = playerTransform.position - transform.position;
+            }
+            else
+            {
+                transform.position += dir * dashForce * Time.deltaTime;
+            }
         }
     }
 
     void Grems_Move()
     {
-        if (transform.position.y > 0.6)
+        if (!stop)
         {
-            transform.Translate(new Vector2(-1 * key, -0.3f) * monster_Speed * Time.deltaTime);
-        }
-        else
-        {
-            transform.Translate(new Vector2(-1 * key, 0) * monster_Speed * Time.deltaTime);
+            if (transform.position.y > 0.6)
+            {
+                transform.Translate(new Vector2(-1 * key, -0.3f) * monster_Speed * Time.deltaTime);
+            }
+            else
+            {
+                transform.Translate(new Vector2(-1 * key, 0) * monster_Speed * Time.deltaTime);
+            }
         }
     }
 
@@ -66,14 +72,17 @@ public class Germs : Monster_Parents
 
     IEnumerator Fire()
     {
-        yield return new WaitForSecondsRealtime(keyChangeTime);
-
-        for(int i = 0; i < 3; i++)
+        if (!stop)
         {
-            Instantiate(germs_BulletPrefab, transform.position, Quaternion.identity);
-            yield return new WaitForSecondsRealtime(fireTime);
+            yield return new WaitForSecondsRealtime(keyChangeTime);
+
+            for (int i = 0; i < 3; i++)
+            {
+                Instantiate(germs_BulletPrefab, transform.position, Quaternion.identity);
+                yield return new WaitForSecondsRealtime(fireTime);
+            }
+            StartCoroutine(Fire());
         }
-        StartCoroutine(Fire());
     }
 
     void OnCollisionEnter2D(Collision2D collision)

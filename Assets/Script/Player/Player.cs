@@ -28,12 +28,12 @@ public class Player : MonoBehaviour
         }
         else
         {
-            Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
-            if (pos.x < 0f) pos.x = 0f;
-            if (pos.x > 1f) pos.x = 1f;
-            if (pos.y < 0f) pos.y = 0f;
-            if (pos.y > 1f) pos.y = 1f;
-            transform.position = Camera.main.ViewportToWorldPoint(pos);
+            Vector2 pos = new Vector2 (transform.position.x, transform.position.y);
+            if (transform.position.x < -2.6f) pos = new Vector2 (-2.6f, transform.position.y);
+            if (transform.position.x > 2.6f) pos = new Vector2 (2.6f, transform.position.y);
+            if (transform.position.y < -4.8f) pos = new Vector2(transform.position.x, -4.8f);
+            if (transform.position.y > 4.8f) pos = new Vector2(transform.position.x, 4.8f);
+            transform.position = pos;
 
             moveControl();
         }

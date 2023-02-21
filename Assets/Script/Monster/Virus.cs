@@ -9,9 +9,12 @@ public class Virus : Monster_Parents
 
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        monster_Move();
+        if (!stop)
+        {
+            monster_Move();
+        }
     }
 
     protected override void Die()

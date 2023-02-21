@@ -147,8 +147,8 @@ public class BossManager : MonoBehaviour
             StartCoroutine(ret());
 
         }
-        yield return new WaitForSecondsRealtime(5.1f);
         GameManager.instance_.stage2clear = true;
+        yield return new WaitForSecondsRealtime(5.1f);
         GameManager.instance_.GameoverDisplay.SetActive(true);
         GameManager.instance_.isGameover = true;
         GameManager.instance_.GameoverText.text = "Clear";

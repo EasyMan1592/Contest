@@ -15,9 +15,12 @@ public class Bacteria : Monster_Parents
         transform.rotation = Quaternion.Euler(0f, 0f, playerTransform.position.normalized.z);
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        monster_Move();
+        if (!stop)
+        {
+            monster_Move();
+        }
     }
 
     protected override void Die()
