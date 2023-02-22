@@ -33,6 +33,11 @@ public class GuideButtons : MonoBehaviour
         GuideManager.instance.page = 3;
     }
 
+    public void page_4()
+    {
+        GuideManager.instance.page = 4;
+    }
+
 
 
 }

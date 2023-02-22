@@ -25,18 +25,28 @@ public class GuideManager : MonoBehaviour
             Scenes[0].SetActive(true);
             Scenes[1].SetActive(false);
             Scenes[2].SetActive(false);
+            Scenes[3].SetActive(false);
         }
         else if (page == 2)
         {
             Scenes[0].SetActive(false);
             Scenes[1].SetActive(true);
             Scenes[2].SetActive(false);
+            Scenes[3].SetActive(false);
         }
         else if (page == 3)
         {
             Scenes[0].SetActive(false);
             Scenes[1].SetActive(false);
             Scenes[2].SetActive(true);
+            Scenes[3].SetActive(false);
+        }
+        else if (page == 4)
+        {
+            Scenes[0].SetActive(false);
+            Scenes[1].SetActive(false);
+            Scenes[2].SetActive(false);
+            Scenes[3].SetActive(true);
         }
     }
 
